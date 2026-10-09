@@ -14,7 +14,181 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      experiments: {
+        Row: {
+          action_budget: number
+          agents: string[]
+          completed_at: string | null
+          created_at: string
+          environments: string[]
+          hypothesis: string
+          id: string
+          name: string
+          prompt_version: string
+          repetitions: number
+          seed: number
+          started_at: string | null
+          status: string
+          temperature: number
+          timeout_s: number
+          user_id: string
+        }
+        Insert: {
+          action_budget?: number
+          agents?: string[]
+          completed_at?: string | null
+          created_at?: string
+          environments?: string[]
+          hypothesis?: string
+          id?: string
+          name: string
+          prompt_version?: string
+          repetitions?: number
+          seed?: number
+          started_at?: string | null
+          status?: string
+          temperature?: number
+          timeout_s?: number
+          user_id?: string
+        }
+        Update: {
+          action_budget?: number
+          agents?: string[]
+          completed_at?: string | null
+          created_at?: string
+          environments?: string[]
+          hypothesis?: string
+          id?: string
+          name?: string
+          prompt_version?: string
+          repetitions?: number
+          seed?: number
+          started_at?: string | null
+          status?: string
+          temperature?: number
+          timeout_s?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      runs: {
+        Row: {
+          actions: number
+          agent: string
+          cost: number
+          created_at: string
+          duration_ms: number
+          environment: string
+          experiment_id: string
+          failures: number
+          id: string
+          repetition: number
+          retries: number
+          score: number
+          solved: boolean
+          status: string
+          tokens: number
+          user_id: string
+        }
+        Insert: {
+          actions?: number
+          agent: string
+          cost?: number
+          created_at?: string
+          duration_ms?: number
+          environment: string
+          experiment_id: string
+          failures?: number
+          id?: string
+          repetition?: number
+          retries?: number
+          score?: number
+          solved?: boolean
+          status?: string
+          tokens?: number
+          user_id?: string
+        }
+        Update: {
+          actions?: number
+          agent?: string
+          cost?: number
+          created_at?: string
+          duration_ms?: number
+          environment?: string
+          experiment_id?: string
+          failures?: number
+          id?: string
+          repetition?: number
+          retries?: number
+          score?: number
+          solved?: boolean
+          status?: string
+          tokens?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "runs_experiment_id_fkey"
+            columns: ["experiment_id"]
+            isOneToOne: false
+            referencedRelation: "experiments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      steps: {
+        Row: {
+          error: string | null
+          executed_action: string
+          id: string
+          latency_ms: number
+          observation: Json
+          proposed_action: string
+          run_id: string
+          state_change: string
+          step_index: number
+          tokens: number
+          user_id: string
+          valid: boolean
+        }
+        Insert: {
+          error?: string | null
+          executed_action: string
+          id?: string
+          latency_ms?: number
+          observation: Json
+          proposed_action: string
+          run_id: string
+          state_change?: string
+          step_index: number
+          tokens?: number
+          user_id?: string
+          valid?: boolean
+        }
+        Update: {
+          error?: string | null
+          executed_action?: string
+          id?: string
+          latency_ms?: number
+          observation?: Json
+          proposed_action?: string
+          run_id?: string
+          state_change?: string
+          step_index?: number
+          tokens?: number
+          user_id?: string
+          valid?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "steps_run_id_fkey"
+            columns: ["run_id"]
+            isOneToOne: false
+            referencedRelation: "runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
