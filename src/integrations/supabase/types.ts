@@ -71,6 +71,292 @@ export type Database = {
         }
         Relationships: []
       }
+      genesis_agents: {
+        Row: {
+          color: string
+          created_at: string
+          id: string
+          model_config: Json
+          name: string
+          objective: string
+          position: Json
+          resources: Json
+          status: string
+          user_id: string
+          world_id: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          id?: string
+          model_config?: Json
+          name: string
+          objective?: string
+          position?: Json
+          resources?: Json
+          status?: string
+          user_id: string
+          world_id: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: string
+          model_config?: Json
+          name?: string
+          objective?: string
+          position?: Json
+          resources?: Json
+          status?: string
+          user_id?: string
+          world_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "genesis_agents_world_id_fkey"
+            columns: ["world_id"]
+            isOneToOne: false
+            referencedRelation: "genesis_worlds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      genesis_events: {
+        Row: {
+          created_at: string
+          data: Json
+          id: string
+          kind: string
+          message: string
+          step: number
+          user_id: string
+          world_id: string
+        }
+        Insert: {
+          created_at?: string
+          data?: Json
+          id?: string
+          kind?: string
+          message: string
+          step: number
+          user_id: string
+          world_id: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json
+          id?: string
+          kind?: string
+          message?: string
+          step?: number
+          user_id?: string
+          world_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "genesis_events_world_id_fkey"
+            columns: ["world_id"]
+            isOneToOne: false
+            referencedRelation: "genesis_worlds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      genesis_experiences: {
+        Row: {
+          action: string
+          actual: Json
+          agent_id: string
+          created_at: string
+          id: string
+          observation: Json
+          predicted: Json | null
+          prediction_error: number | null
+          step: number
+          user_id: string
+          world_id: string
+        }
+        Insert: {
+          action: string
+          actual?: Json
+          agent_id: string
+          created_at?: string
+          id?: string
+          observation?: Json
+          predicted?: Json | null
+          prediction_error?: number | null
+          step: number
+          user_id: string
+          world_id: string
+        }
+        Update: {
+          action?: string
+          actual?: Json
+          agent_id?: string
+          created_at?: string
+          id?: string
+          observation?: Json
+          predicted?: Json | null
+          prediction_error?: number | null
+          step?: number
+          user_id?: string
+          world_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "genesis_experiences_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "genesis_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "genesis_experiences_world_id_fkey"
+            columns: ["world_id"]
+            isOneToOne: false
+            referencedRelation: "genesis_worlds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      genesis_experiments: {
+        Row: {
+          completed_at: string | null
+          config: Json
+          created_at: string
+          hypothesis: string
+          id: string
+          name: string
+          notes: string
+          results: Json
+          seed: number
+          status: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          config?: Json
+          created_at?: string
+          hypothesis?: string
+          id?: string
+          name: string
+          notes?: string
+          results?: Json
+          seed?: number
+          status?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          config?: Json
+          created_at?: string
+          hypothesis?: string
+          id?: string
+          name?: string
+          notes?: string
+          results?: Json
+          seed?: number
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      genesis_knowledge: {
+        Row: {
+          agent_id: string | null
+          confidence: number
+          created_at: string
+          discovery_step: number
+          evidence: number
+          id: string
+          kind: string
+          rule: string
+          shared: boolean
+          user_id: string
+          world_id: string
+        }
+        Insert: {
+          agent_id?: string | null
+          confidence?: number
+          created_at?: string
+          discovery_step?: number
+          evidence?: number
+          id?: string
+          kind?: string
+          rule: string
+          shared?: boolean
+          user_id: string
+          world_id: string
+        }
+        Update: {
+          agent_id?: string | null
+          confidence?: number
+          created_at?: string
+          discovery_step?: number
+          evidence?: number
+          id?: string
+          kind?: string
+          rule?: string
+          shared?: boolean
+          user_id?: string
+          world_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "genesis_knowledge_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "genesis_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "genesis_knowledge_world_id_fkey"
+            columns: ["world_id"]
+            isOneToOne: false
+            referencedRelation: "genesis_worlds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      genesis_worlds: {
+        Row: {
+          clock: number
+          config: Json
+          created_at: string
+          id: string
+          name: string
+          seed: number
+          state: Json
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          clock?: number
+          config?: Json
+          created_at?: string
+          id?: string
+          name?: string
+          seed?: number
+          state?: Json
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          clock?: number
+          config?: Json
+          created_at?: string
+          id?: string
+          name?: string
+          seed?: number
+          state?: Json
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       runs: {
         Row: {
           actions: number

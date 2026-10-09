@@ -8,6 +8,13 @@
       "when": 1791530428880,
       "tag": "0000_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791531153209,
+      "tag": "0001_genesis_tables",
+      "breakpoints": true
     }
   ]
 }
