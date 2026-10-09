@@ -7,8 +7,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { oauthReturnPath } from "@/lib/oauth-return-path";
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (s: Record<string, unknown>): { next?: string } =>
+    typeof s["next"] === "string" ? { next: s["next"] as string } : {},
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },
@@ -25,28 +28,37 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const nav = useNavigate();
   const { session } = useAuth();
+  const search = Route.useSearch();
+  const next = search.next ? oauthReturnPath(search.next) : null;
   const [mode, setMode] = useState<"in" | "up">("in");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
 
-  useEffect(() => { if (session) nav({ to: "/experiments" }); }, [session, nav]);
+  useEffect(() => {
+    if (!session) return;
+    if (next && next !== "/") window.location.href = next;
+    else nav({ to: "/experiments" });
+  }, [session, nav, next]);
+
+  const returnUrl = () => new URL(next ?? "/experiments", window.location.origin).href;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     const res = mode === "in"
       ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + "/experiments" } });
+      : await supabase.auth.signUp({ email, password, options: { emailRedirectTo: returnUrl() } });
     setBusy(false);
     if (res.error) { toast.error(res.error.message); return; }
     if (mode === "up" && !res.data.session) toast.success("Check your email to confirm your account.");
   }
 
   async function google() {
-    const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
+    const r = await lovable.auth.signInWithOAuth("google", { redirect_uri: next ? returnUrl() : window.location.origin });
     if (r.error) toast.error(String(r.error.message ?? r.error));
   }
+
 
   return (
     <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center px-6">

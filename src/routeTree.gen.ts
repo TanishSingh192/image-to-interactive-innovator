@@ -12,12 +12,15 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as McpRouteImport } from './routes/mcp'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated.agents'
 import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated.analytics'
 import { Route as AuthenticatedCivilizationRouteImport } from './routes/_authenticated.civilization'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated.settings'
 import { Route as AuthenticatedWorldRouteImport } from './routes/_authenticated.world'
 import { Route as AuthenticatedWorldModelRouteImport } from './routes/_authenticated.world-model'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as AuthenticatedExperimentsIndexRouteImport } from './routes/_authenticated.experiments.index'
 import { Route as AuthenticatedExperimentsNewRouteImport } from './routes/_authenticated.experiments.new'
 
@@ -35,6 +38,17 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedAgentsRoute = AuthenticatedAgentsRouteImport.update({
   id: '/agents',
   path: '/agents',
@@ -66,6 +80,11 @@ const AuthenticatedWorldModelRoute = AuthenticatedWorldModelRouteImport.update({
   path: '/world-model',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedExperimentsIndexRoute =
   AuthenticatedExperimentsIndexRouteImport.update({
     id: '/experiments/',
@@ -82,24 +101,30 @@ const AuthenticatedExperimentsNewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/mcp': typeof McpRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/agents': typeof AuthenticatedAgentsRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/civilization': typeof AuthenticatedCivilizationRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/world': typeof AuthenticatedWorldRoute
   '/world-model': typeof AuthenticatedWorldModelRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/experiments/new': typeof AuthenticatedExperimentsNewRoute
   '/experiments/': typeof AuthenticatedExperimentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/mcp': typeof McpRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/agents': typeof AuthenticatedAgentsRoute
   '/analytics': typeof AuthenticatedAnalyticsRoute
   '/civilization': typeof AuthenticatedCivilizationRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/world': typeof AuthenticatedWorldRoute
   '/world-model': typeof AuthenticatedWorldModelRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/experiments/new': typeof AuthenticatedExperimentsNewRoute
   '/experiments': typeof AuthenticatedExperimentsIndexRoute
 }
@@ -108,12 +133,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth': typeof AuthRoute
+  '/mcp': typeof McpRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/_authenticated/agents': typeof AuthenticatedAgentsRoute
   '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/civilization': typeof AuthenticatedCivilizationRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/world': typeof AuthenticatedWorldRoute
   '/_authenticated/world-model': typeof AuthenticatedWorldModelRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/_authenticated/experiments/new': typeof AuthenticatedExperimentsNewRoute
   '/_authenticated/experiments/': typeof AuthenticatedExperimentsIndexRoute
 }
@@ -122,24 +150,30 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/mcp'
+    | '/.well-known/oauth-protected-resource'
     | '/agents'
     | '/analytics'
     | '/civilization'
     | '/settings'
     | '/world'
     | '/world-model'
+    | '/.lovable/oauth/consent'
     | '/experiments/new'
     | '/experiments/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
+    | '/mcp'
+    | '/.well-known/oauth-protected-resource'
     | '/agents'
     | '/analytics'
     | '/civilization'
     | '/settings'
     | '/world'
     | '/world-model'
+    | '/.lovable/oauth/consent'
     | '/experiments/new'
     | '/experiments'
   id:
@@ -147,12 +181,15 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/mcp'
+    | '/.well-known/oauth-protected-resource'
     | '/_authenticated/agents'
     | '/_authenticated/analytics'
     | '/_authenticated/civilization'
     | '/_authenticated/settings'
     | '/_authenticated/world'
     | '/_authenticated/world-model'
+    | '/.lovable/oauth/consent'
     | '/_authenticated/experiments/new'
     | '/_authenticated/experiments/'
   fileRoutesById: FileRoutesById
@@ -161,6 +198,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   AuthRoute: typeof AuthRoute
+  McpRoute: typeof McpRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -184,6 +224,20 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/agents': {
@@ -227,6 +281,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/world-model'
       preLoaderRoute: typeof AuthenticatedWorldModelRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/experiments/': {
       id: '/_authenticated/experiments/'
@@ -275,6 +336,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   AuthRoute: AuthRoute,
+  McpRoute: McpRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
