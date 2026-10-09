@@ -47,28 +47,27 @@ export function simulateEpisode(agent: AgentDef, env: string, rep: number, seed:
   const r = rng(seed + hash(agent.id + env) + rep * 101);
   const size = 8;
   let grid: Grid = Array.from({ length: size }, () => Array.from({ length: size }, () => (r() < 0.25 ? Math.floor(r() * 9) + 1 : 0)));
-  let pos = [Math.floor(r() * size), Math.floor(r() * size)];
+  let py = Math.floor(r() * size), px = Math.floor(r() * size);
   const difficulty = 0.3 + (Math.abs(hash(env)) % 40) / 100;
   const solved = r() < agent.skill * (1.1 - difficulty);
   const length = solved ? Math.max(6, Math.floor(budget * (0.25 + r() * 0.5 * (1 - agent.skill)))) : budget;
   const steps = [];
   let failures = 0, retries = 0, tokens = 0, duration = 0;
   for (let i = 0; i < length; i++) {
-    const proposed = ACTIONS[Math.floor(r() * (ACTIONS.length - 1))];
+    const proposed = ACTIONS[Math.floor(r() * (ACTIONS.length - 1))]!;
     const valid = r() > 0.06 + (1 - agent.skill) * 0.08;
     const executed = valid ? proposed : "NOOP";
     let error: string | null = null;
     if (!valid) { failures++; error = "Invalid action: failed schema validation"; }
     if (r() < 0.02) { retries++; error = "Timeout — retried (1/3)"; }
-    const [y, x] = pos;
-    if (executed === "UP") pos = [Math.max(0, y - 1), x];
-    if (executed === "DOWN") pos = [Math.min(size - 1, y + 1), x];
-    if (executed === "LEFT") pos = [y, Math.max(0, x - 1)];
-    if (executed === "RIGHT") pos = [y, Math.min(size - 1, x + 1)];
+    if (executed === "UP") py = Math.max(0, py - 1);
+    if (executed === "DOWN") py = Math.min(size - 1, py + 1);
+    if (executed === "LEFT") px = Math.max(0, px - 1);
+    if (executed === "RIGHT") px = Math.min(size - 1, px + 1);
     grid = grid.map((row) => [...row]);
-    if (executed === "CLICK" || executed === "ACTION5") grid[pos[0]][pos[1]] = (grid[pos[0]][pos[1]] + 1) % 10;
+    if (executed === "CLICK" || executed === "ACTION5") grid[py]![px] = (grid[py]![px]! + 1) % 10;
     const obs = grid.map((row) => [...row]);
-    obs[pos[0]][pos[1]] = 4;
+    obs[py]![px] = 4;
     const lat = Math.round(agent.latency * (0.6 + r() * 0.8));
     const tk = Math.round(900 + r() * 700);
     tokens += tk; duration += lat;

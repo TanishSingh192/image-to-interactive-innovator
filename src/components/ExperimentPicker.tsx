@@ -4,7 +4,7 @@ import { useExperiments } from "@/lib/queries";
 export function ExperimentPicker({ value, onChange }: { value?: string; onChange: (id: string) => void }) {
   const { data = [] } = useExperiments();
   return (
-    <Select value={value} onValueChange={onChange}>
+    <Select value={value ?? ""} onValueChange={onChange}>
       <SelectTrigger className="w-72"><SelectValue placeholder="Choose an experiment" /></SelectTrigger>
       <SelectContent>
         {data.map((e) => <SelectItem key={e.id} value={e.id}>{e.name}</SelectItem>)}
