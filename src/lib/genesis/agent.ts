@@ -84,7 +84,7 @@ export function evaluateHypothesis(prediction: string, observedResult: string): 
   if (p.includes("nothing happens")) return observed === "nothing happens" ? "supported" : "refuted";
   // Predictions based on a learned rule may describe the full inventory delta. Extract
   // the produced item (the +1 effect) so it can be compared to the observed product.
-  const predictedItem = p.match(/(?:^|,\\s*)([a-z][a-z0-9_ -]*)\\s+\\+1/)?.[1]?.trim() ?? p;
+  const predictedItem = p.match(/(?:^|,\s*)([a-z][a-z0-9_ -]*)\s+\+1/)?.[1]?.trim() ?? p;
   return predictedItem === observed ? "supported" : "refuted";
 }
 
