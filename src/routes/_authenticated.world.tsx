@@ -6,6 +6,7 @@ import { getController, loadController, newWorld } from "@/lib/genesis/session";
 import type { SimController } from "@/lib/genesis/controller";
 import { isNight } from "@/lib/genesis/world";
 import { WorldCanvas } from "@/components/WorldCanvas";
+import { World3D } from "@/components/World3D";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
@@ -30,6 +31,7 @@ function WorldPage() {
   const [, force] = useReducer((x: number) => x + 1, 0);
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [tile, setTile] = useState<{ x: number; y: number } | null>(null);
+  const [mode, setMode] = useState<"3d" | "2d">("3d");
 
   useEffect(() => {
     if (!user) return;
@@ -42,6 +44,8 @@ function WorldPage() {
   }, [user]);
 
   if (!ctrl) return <p className="eyebrow p-10">Growing a world…</p>;
+
+
   const s = ctrl.state;
   const agent = s.agents.find((a) => a.id === selectedAgent);
   const tileInfo = tile ? s.tiles[tile.y]?.[tile.x] : null;
@@ -75,8 +79,15 @@ function WorldPage() {
       </div>
 
       <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[1fr_320px]">
-        <div className="min-h-[320px] overflow-hidden rounded border border-border bg-card">
-          <WorldCanvas state={s} selectedAgent={selectedAgent} onSelectAgent={setSelectedAgent} onSelectTile={(x, y) => setTile({ x, y })} />
+        <div className="relative min-h-[320px] overflow-hidden rounded border border-border bg-card">
+          <div className="absolute right-2 top-2 z-10 flex gap-1">
+            {(["3d", "2d"] as const).map((m) => (
+              <Button key={m} size="sm" variant={mode === m ? "default" : "outline"} onClick={() => setMode(m)}>{m.toUpperCase()}</Button>
+            ))}
+          </div>
+          {mode === "3d"
+            ? <World3D state={s} selectedAgent={selectedAgent} onSelectAgent={setSelectedAgent} onSelectTile={(x, y) => setTile({ x, y })} />
+            : <WorldCanvas state={s} selectedAgent={selectedAgent} onSelectAgent={setSelectedAgent} onSelectTile={(x, y) => setTile({ x, y })} />}
         </div>
 
         <div className="flex min-h-0 flex-col gap-4 overflow-y-auto">
