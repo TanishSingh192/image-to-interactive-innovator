@@ -166,16 +166,16 @@ export function applyAction(s: WorldState, a: AgentState, action: string): Outco
 
   if (verb === "gather") {
     const t = s.tiles[a.y]![a.x]!;
-    const hasTool = (a.inventory.tool ?? 0) > 0;
+    const hasTool = (a.inventory["tool"] ?? 0) > 0;
     const yieldN = hasTool ? 2 : 1;
     if (t.obj === "tree") {
-      a.inventory.wood = (a.inventory.wood ?? 0) + yieldN;
+      a.inventory["wood"] = (a.inventory["wood"] ?? 0) + yieldN;
       s.stats.gathered += yieldN;
       out.success = true;
       out.changes.push(`wood +${yieldN}${hasTool ? " (tool)" : ""}`);
       out.events.push(`${a.name} gathered ${yieldN} wood from a tree`);
     } else if (t.obj === "stone") {
-      a.inventory.stone = (a.inventory.stone ?? 0) + yieldN;
+      a.inventory["stone"] = (a.inventory["stone"] ?? 0) + yieldN;
       s.stats.gathered += yieldN;
       out.success = true;
       out.changes.push(`stone +${yieldN}${hasTool ? " (tool)" : ""}`);
@@ -183,7 +183,7 @@ export function applyAction(s: WorldState, a: AgentState, action: string): Outco
     } else if (t.obj === "berry" && t.charges > 0) {
       t.charges--;
       if (t.charges === 0) t.regrowAt = s.clock + s.config.dayLength;
-      a.inventory.food = (a.inventory.food ?? 0) + 1;
+      a.inventory["food"] = (a.inventory["food"] ?? 0) + 1;
       s.stats.gathered += 1;
       out.success = true;
       out.changes.push("food +1", t.charges === 0 ? "bush depleted" : "bush has berries left");
@@ -205,7 +205,7 @@ export function applyAction(s: WorldState, a: AgentState, action: string): Outco
     a.inventory[i1]!--; a.inventory[i2]!--;
     const pair = [i1, i2].sort().join("+");
     if (pair === "stone+wood") {
-      a.inventory.tool = (a.inventory.tool ?? 0) + 1;
+      a.inventory["tool"] = (a.inventory["tool"] ?? 0) + 1;
       s.stats.crafted++;
       out.success = true;
       out.changes.push(`${i1} -1`, `${i2} -1`, "tool +1");
@@ -220,8 +220,8 @@ export function applyAction(s: WorldState, a: AgentState, action: string): Outco
   }
 
   if (verb === "eat") {
-    if ((a.inventory.food ?? 0) < 1) { out.changes.push("no food"); return out; }
-    a.inventory.food!--;
+    if ((a.inventory["food"] ?? 0) < 1) { out.changes.push("no food"); return out; }
+    a.inventory["food"]!--;
     a.energy = Math.min(100, a.energy + 25);
     out.success = true;
     out.changes.push("food -1", "energy +25");
