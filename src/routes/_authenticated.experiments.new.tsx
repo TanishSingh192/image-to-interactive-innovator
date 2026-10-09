@@ -48,7 +48,7 @@ function NewExperiment() {
     cancelled.current = false;
 
     const { data: row, error } = await supabase.from("genesis_experiments").insert({
-      user_id: user.id, name: name.trim(), hypothesis: hypothesis || undefined, notes: notes || undefined,
+      user_id: user.id, name: name.trim(), ...(hypothesis ? { hypothesis } : {}), ...(notes ? { notes } : {}),
       seed, status: "running",
       config: { seed, steps, agents, comms, sharing },
     }).select("id").single();

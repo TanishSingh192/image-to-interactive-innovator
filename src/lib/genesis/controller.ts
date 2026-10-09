@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import {
-  applyAction, generateWorld, observe, tickWorld,
+  applyAction, coverage, generateWorld, observe, tickWorld,
   type WorldConfig, type WorldState,
 } from "./world";
 import { decide, learn, predict } from "./agent";
