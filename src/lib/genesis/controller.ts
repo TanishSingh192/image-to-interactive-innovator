@@ -103,7 +103,7 @@ export class SimController {
     if (!this.worldId) return;
     const s = this.state;
     await supabase.from("genesis_worlds").update({
-      state: s as unknown as Record<string, unknown>,
+      state: s as never,
       clock: s.clock,
       status: this.playing ? "running" : "paused",
       updated_at: new Date().toISOString(),
@@ -131,8 +131,8 @@ export class SimController {
     const s = this.state;
     const { data: w, error } = await supabase.from("genesis_worlds").insert({
       user_id: this.userId, name, seed: s.config.seed,
-      config: s.config as unknown as Record<string, unknown>,
-      state: s as unknown as Record<string, unknown>, clock: 0,
+      config: s.config as never,
+      state: s as never, clock: 0,
     }).select().single();
     if (error || !w) throw error ?? new Error("world insert failed");
     this.worldId = w.id;
@@ -167,4 +167,47 @@ export class SimController {
   }
 
   dispose() { this.pause(); this.listeners.clear(); }
+}
+
+/** Offline experiment run: full simulation with no DB writes, batched so the UI stays responsive. */
+export async function runSim(
+  config: WorldConfig,
+  steps: number,
+  onProgress: (p: number) => void,
+  isCancelled: () => boolean,
+) {
+  const sim = new SimController("experiment", config);
+  const batch = 25;
+  for (let done = 0; done < steps; done += batch) {
+    if (isCancelled()) break;
+    for (let i = 0; i < batch && done + i < steps; i++) sim.step();
+    onProgress(Math.min(1, (done + batch) / steps));
+    await new Promise((r) => setTimeout(r, 0));
+  }
+  const s = sim.state;
+  const allRules = s.agents.flatMap((a) => a.mind.rules);
+  const correct = sim.recentSteps.filter((r) => r.error === 0).length;
+  return {
+    steps: s.clock,
+    totalRules: allRules.length,
+    confirmed: allRules.filter((r) => r.kind === "confirmed").length,
+    accuracy: sim.recentSteps.length ? +(correct / sim.recentSteps.length * 100).toFixed(1) : 0,
+    coverage: +(s.agents.reduce((sum, a) => sum + coverage(s, a), 0) / s.agents.length * 100).toFixed(1),
+    exchanges: s.stats.exchanges,
+    discoveries: sim.events.filter((e) => e.kind === "discovery").length,
+    gathered: s.stats.gathered,
+    crafted: s.stats.crafted,
+    rules: allRules.map((r) => ({ text: r.text, kind: r.kind, confidence: r.confidence, evidence: r.evidence })),
+  };
+}
+
+/** Trigger a browser file download. */
+export function download(filename: string, content: string, type = "application/json") {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
 }
