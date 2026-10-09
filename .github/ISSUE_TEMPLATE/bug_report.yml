@@ -1,0 +1,32 @@
+name: Bug report
+description: Report reproducible application or simulation behavior
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: "Do not include credentials, account identifiers, private exports, or sensitive vulnerabilities. Use the private reporting guidance in SECURITY.md for security issues."
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: What happened and on which page?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include seed, agent count, steps, and communication/sharing settings when relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and evidence
+      description: Browser/version, local or hosted run, revision if known, and redacted logs/screenshots. Matching seeds alone do not guarantee identical trajectories.
