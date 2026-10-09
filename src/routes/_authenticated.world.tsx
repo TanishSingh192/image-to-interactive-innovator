@@ -42,6 +42,8 @@ function WorldPage() {
   }, [user]);
 
   if (!ctrl) return <p className="eyebrow p-10">Growing a world…</p>;
+  // eslint-disable-next-line react-hooks/rules-of-hooks -- placed after early return intentionally avoided below
+
   const s = ctrl.state;
   const agent = s.agents.find((a) => a.id === selectedAgent);
   const tileInfo = tile ? s.tiles[tile.y]?.[tile.x] : null;
@@ -75,8 +77,15 @@ function WorldPage() {
       </div>
 
       <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-[1fr_320px]">
-        <div className="min-h-[320px] overflow-hidden rounded border border-border bg-card">
-          <WorldCanvas state={s} selectedAgent={selectedAgent} onSelectAgent={setSelectedAgent} onSelectTile={(x, y) => setTile({ x, y })} />
+        <div className="relative min-h-[320px] overflow-hidden rounded border border-border bg-card">
+          <div className="absolute right-2 top-2 z-10 flex gap-1">
+            {(["3d", "2d"] as const).map((m) => (
+              <Button key={m} size="sm" variant={mode === m ? "default" : "outline"} onClick={() => setMode(m)}>{m.toUpperCase()}</Button>
+            ))}
+          </div>
+          {mode === "3d"
+            ? <World3D state={s} selectedAgent={selectedAgent} onSelectAgent={setSelectedAgent} onSelectTile={(x, y) => setTile({ x, y })} />
+            : <WorldCanvas state={s} selectedAgent={selectedAgent} onSelectAgent={setSelectedAgent} onSelectTile={(x, y) => setTile({ x, y })} />}
         </div>
 
         <div className="flex min-h-0 flex-col gap-4 overflow-y-auto">
