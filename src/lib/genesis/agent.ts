@@ -70,6 +70,24 @@ export function predict(mind: MindState, action: string, obs: Observation): { te
   return { text: "unknown outcome", confidence: 0 };
 }
 
+/** Compare a prediction with the observed result of an experiment.
+ * Broad predictions ("new item") are evaluated at category level; unknown predictions
+ * are inconclusive rather than being incorrectly counted as a success or failure.
+ */
+export function evaluateHypothesis(prediction: string, observedResult: string): Hypothesis["status"] {
+  const observed = observedResult.trim().toLowerCase() === "nothing"
+    ? "nothing happens"
+    : observedResult.trim().toLowerCase();
+  const p = prediction.trim().toLowerCase();
+  if (!p || p === "unknown outcome") return "inconclusive";
+  if (p === "new item") return observed === "nothing happens" ? "refuted" : "supported";
+  if (p.includes("nothing happens")) return observed === "nothing happens" ? "supported" : "refuted";
+  // Predictions based on a learned rule may describe the full inventory delta. Extract
+  // the produced item (the +1 effect) so it can be compared to the observed product.
+  const predictedItem = p.match(/(?:^|,\\s*)([a-z][a-z0-9_ -]*)\\s+\\+1/)?.[1]?.trim() ?? p;
+  return predictedItem === observed ? "supported" : "refuted";
+}
+
 /** Compare prediction to outcome, revise the rule, update memory. Returns prediction error 0..1. */
 export function learn(
   s: WorldState, a: AgentState, action: string, obs: Observation,
@@ -128,8 +146,7 @@ export function learn(
       m.recipes[pair] = result;
       const h = m.hypotheses.find((x) => x.action === action && x.status === "untested");
       if (h) {
-        const supported = (h.prediction === "nothing happens") === (result === "nothing") && (h.prediction === result || h.prediction === "new item" || result === "nothing");
-        h.status = supported ? "supported" : "refuted";
+        h.status = evaluateHypothesis(h.prediction, result);
         h.result = result === "nothing" ? "nothing happens" : result;
       }
     }
@@ -151,7 +168,15 @@ export function learn(
   const total = Object.values(m.skills).reduce((x, y) => x + y, 0);
   if (top && total >= 8 && top[1] / total >= 0.35) a.role = ROLE_OF[top[0]] ?? "generalist";
 
-  const error = predicted.text === "unknown outcome" ? 1 : predicted.text === effect ? 0 : 1;
+  let error: number;
+  if (verb === "experiment" || verb === "craft") {
+    const result = actual.changes.find((c) => c.endsWith("+1"))?.split(" ")[0]
+      ?? (actual.changes.includes("nothing happens") ? "nothing" : undefined);
+    const assessment = result ? evaluateHypothesis(predicted.text, result) : "inconclusive";
+    error = assessment === "supported" ? 0 : assessment === "refuted" ? 1 : 0.5;
+  } else {
+    error = predicted.text === "unknown outcome" ? 1 : predicted.text === effect ? 0 : 1;
+  }
   s.stats.predictions++;
   s.stats.predictionErrors += error;
   const changed = !before || before.kind !== r.kind || before.evidence !== r.evidence ? r : null;
