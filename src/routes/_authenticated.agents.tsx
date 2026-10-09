@@ -9,6 +9,8 @@ export const Route = createFileRoute("/_authenticated/agents")({
   ssr: false,
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Agents — Genesis" },
       { name: "description", content: "Inspect every agent: goals, inventory, learned rules, hypotheses, and prediction errors." },
       { property: "og:title", content: "Agents — Genesis" },

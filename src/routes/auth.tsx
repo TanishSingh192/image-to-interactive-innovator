@@ -11,10 +11,12 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — AI Benchmarking Lab" },
-      { name: "description", content: "Sign in to manage your AI benchmarking experiments." },
-      { property: "og:title", content: "Sign in — AI Benchmarking Lab" },
-      { property: "og:description", content: "Access your experiments, runs and exports." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { title: "Sign in — Genesis" },
+      { name: "description", content: "Sign in to your Genesis simulation and research workspace." },
+      { property: "og:title", content: "Sign in — Genesis" },
+      { property: "og:description", content: "Access your Genesis worlds, agents, experiments, and exports." },
     ],
   }),
   component: AuthPage,

@@ -13,6 +13,8 @@ export const Route = createFileRoute("/_authenticated/world")({
   ssr: false,
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "World — Genesis" },
       { name: "description", content: "Watch agents explore and learn a simulated world in real time." },
       { property: "og:title", content: "World — Genesis" },

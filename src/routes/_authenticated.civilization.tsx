@@ -8,6 +8,8 @@ export const Route = createFileRoute("/_authenticated/civilization")({
   ssr: false,
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Civilization — Genesis" },
       { name: "description", content: "Collective behavior: exchanges, shared knowledge, communication, and the civilization timeline." },
       { property: "og:title", content: "Civilization — Genesis" },

@@ -5,6 +5,8 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Genesis — Artificial Civilization & World Model Lab" },
       { name: "description", content: "Deploy AI agents into an unfamiliar simulated world and watch them explore, form hypotheses, and learn its hidden rules." },
       { property: "og:title", content: "Genesis — Artificial Civilization & World Model Lab" },
