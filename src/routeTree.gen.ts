@@ -13,9 +13,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated.agents'
+import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated.analytics'
 import { Route as AuthenticatedCivilizationRouteImport } from './routes/_authenticated.civilization'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated.settings'
 import { Route as AuthenticatedWorldRouteImport } from './routes/_authenticated.world'
 import { Route as AuthenticatedWorldModelRouteImport } from './routes/_authenticated.world-model'
+import { Route as AuthenticatedExperimentsIndexRouteImport } from './routes/_authenticated.experiments.index'
+import { Route as AuthenticatedExperimentsNewRouteImport } from './routes/_authenticated.experiments.new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -36,12 +40,22 @@ const AuthenticatedAgentsRoute = AuthenticatedAgentsRouteImport.update({
   path: '/agents',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedCivilizationRoute =
   AuthenticatedCivilizationRouteImport.update({
     id: '/civilization',
     path: '/civilization',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedWorldRoute = AuthenticatedWorldRouteImport.update({
   id: '/world',
   path: '/world',
@@ -52,22 +66,42 @@ const AuthenticatedWorldModelRoute = AuthenticatedWorldModelRouteImport.update({
   path: '/world-model',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedExperimentsIndexRoute =
+  AuthenticatedExperimentsIndexRouteImport.update({
+    id: '/experiments/',
+    path: '/experiments/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedExperimentsNewRoute =
+  AuthenticatedExperimentsNewRouteImport.update({
+    id: '/experiments/new',
+    path: '/experiments/new',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/agents': typeof AuthenticatedAgentsRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
   '/civilization': typeof AuthenticatedCivilizationRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/world': typeof AuthenticatedWorldRoute
   '/world-model': typeof AuthenticatedWorldModelRoute
+  '/experiments/new': typeof AuthenticatedExperimentsNewRoute
+  '/experiments/': typeof AuthenticatedExperimentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/agents': typeof AuthenticatedAgentsRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
   '/civilization': typeof AuthenticatedCivilizationRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/world': typeof AuthenticatedWorldRoute
   '/world-model': typeof AuthenticatedWorldModelRoute
+  '/experiments/new': typeof AuthenticatedExperimentsNewRoute
+  '/experiments': typeof AuthenticatedExperimentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -75,25 +109,52 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/agents': typeof AuthenticatedAgentsRoute
+  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
   '/_authenticated/civilization': typeof AuthenticatedCivilizationRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/world': typeof AuthenticatedWorldRoute
   '/_authenticated/world-model': typeof AuthenticatedWorldModelRoute
+  '/_authenticated/experiments/new': typeof AuthenticatedExperimentsNewRoute
+  '/_authenticated/experiments/': typeof AuthenticatedExperimentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/agents' | '/civilization' | '/world' | '/world-model'
+    | '/'
+    | '/auth'
+    | '/agents'
+    | '/analytics'
+    | '/civilization'
+    | '/settings'
+    | '/world'
+    | '/world-model'
+    | '/experiments/new'
+    | '/experiments/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/agents' | '/civilization' | '/world' | '/world-model'
+  to:
+    | '/'
+    | '/auth'
+    | '/agents'
+    | '/analytics'
+    | '/civilization'
+    | '/settings'
+    | '/world'
+    | '/world-model'
+    | '/experiments/new'
+    | '/experiments'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/agents'
+    | '/_authenticated/analytics'
     | '/_authenticated/civilization'
+    | '/_authenticated/settings'
     | '/_authenticated/world'
     | '/_authenticated/world-model'
+    | '/_authenticated/experiments/new'
+    | '/_authenticated/experiments/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,11 +193,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAgentsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/analytics': {
+      id: '/_authenticated/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/civilization': {
       id: '/_authenticated/civilization'
       path: '/civilization'
       fullPath: '/civilization'
       preLoaderRoute: typeof AuthenticatedCivilizationRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/world': {
@@ -153,21 +228,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedWorldModelRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/experiments/': {
+      id: '/_authenticated/experiments/'
+      path: '/experiments'
+      fullPath: '/experiments/'
+      preLoaderRoute: typeof AuthenticatedExperimentsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/experiments/new': {
+      id: '/_authenticated/experiments/new'
+      path: '/experiments/new'
+      fullPath: '/experiments/new'
+      preLoaderRoute: typeof AuthenticatedExperimentsNewRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
   AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRoute
+  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
   AuthenticatedCivilizationRoute: typeof AuthenticatedCivilizationRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedWorldRoute: typeof AuthenticatedWorldRoute
   AuthenticatedWorldModelRoute: typeof AuthenticatedWorldModelRoute
+  AuthenticatedExperimentsNewRoute: typeof AuthenticatedExperimentsNewRoute
+  AuthenticatedExperimentsIndexRoute: typeof AuthenticatedExperimentsIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAgentsRoute: AuthenticatedAgentsRoute,
+  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
   AuthenticatedCivilizationRoute: AuthenticatedCivilizationRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedWorldRoute: AuthenticatedWorldRoute,
   AuthenticatedWorldModelRoute: AuthenticatedWorldModelRoute,
+  AuthenticatedExperimentsNewRoute: AuthenticatedExperimentsNewRoute,
+  AuthenticatedExperimentsIndexRoute: AuthenticatedExperimentsIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

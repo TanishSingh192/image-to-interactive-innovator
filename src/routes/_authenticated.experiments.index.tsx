@@ -4,7 +4,7 @@ import { useGenesisExperiments } from "@/lib/genesis/queries";
 import { StatusBadge } from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 
-export const Route = createFileRoute("/_authenticated/experiments")({
+export const Route = createFileRoute("/_authenticated/experiments/")({
   ssr: false,
   head: () => ({
     meta: [
