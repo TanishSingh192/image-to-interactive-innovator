@@ -457,7 +457,7 @@ function stepAnimals(s: WorldState, rand: () => number) {
       }
     } else {
       const prey = s.animals.find((d) => d.species === "deer" && Math.abs(d.x - n.x) + Math.abs(d.y - n.y) <= 1 && d.energy > 0);
-      if (prey && rand() < 0.35) { prey.energy = -999; n.energy = Math.min(100, n.energy + 45); s.stats.deaths++; }
+      if (prey && rand() < 0.35) { prey.energy = -999; n.energy = Math.min(100, n.energy + 45); }
       if (night) {
         const victim = s.agents.find((a) => Math.abs(a.x - n.x) + Math.abs(a.y - n.y) <= 1 && s.tiles[a.y]![a.x]!.struct !== "shelter");
         if (victim && rand() < 0.25) { victim.energy = Math.max(0, victim.energy - 6); s.stats.wolfAttacks++; }
@@ -484,7 +484,7 @@ function stepAnimals(s: WorldState, rand: () => number) {
   }
   const before = s.animals.length;
   s.animals = s.animals.filter((n) => n.energy > 0 && n.age < (n.species === "deer" ? 600 : 800));
-  s.stats.deaths += Math.max(0, before - s.animals.length - 0);
+  s.stats.deaths += before - s.animals.length;
   if (born.length) { s.animals.push(...born); s.stats.births += born.length; }
 }
 
