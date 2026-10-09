@@ -280,6 +280,17 @@ export function planFor(m: MindState, item: string, inv: Record<string, number>,
   return need;
 }
 
+/** Return only the missing units for a recipe's input list, preserving duplicates. */
+export function missingIngredients(inv: Record<string, number>, ingredients: string[]): string[] {
+  const remaining = { ...inv };
+  const missing: string[] = [];
+  for (const item of ingredients) {
+    if ((remaining[item] ?? 0) > 0) remaining[item]!--;
+    else missing.push(item);
+  }
+  return missing;
+}
+
 /** Items worth making, given what the agent has learned they are for. */
 function desiredItems(m: MindState, inv: Record<string, number>): string[] {
   const wish: string[] = [];
@@ -392,7 +403,16 @@ export function decide(a: AgentState, obs: Observation, dayLength: number): stri
       add("progress", 0.7, `experiment:${recipe[0]}`, `craft ${w}`);
       break;
     }
-    const need = recipe ? planFor(m, w, inv) : (w === "tool" || w === "plank") ? ["wood", w === "tool" ? "stone" : "wood"] : null;
+    // When the recipe is not yet known, gather only missing inputs. Previously the
+    // static ["wood", "stone"] plan always selected wood first, even when wood was
+    // already in inventory, so agents could gather wood forever and never seek stone.
+    const need = recipe
+      ? planFor(m, w, inv)
+      : w === "tool"
+        ? missingIngredients(inv, ["wood", "stone"])
+        : w === "plank"
+          ? missingIngredients(inv, ["wood", "wood"])
+          : null;
     if (need && need.length) {
       m.plan = need;
       const raw = need[0]!;
