@@ -10,33 +10,132 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedCompareRouteImport } from './routes/_authenticated.compare'
+import { Route as AuthenticatedExportRouteImport } from './routes/_authenticated.export'
+import { Route as AuthenticatedLiveRouteImport } from './routes/_authenticated.live'
+import { Route as AuthenticatedReplayRouteImport } from './routes/_authenticated.replay'
+import { Route as AuthenticatedExperimentsIndexRouteImport } from './routes/_authenticated.experiments.index'
+import { Route as AuthenticatedExperimentsNewRouteImport } from './routes/_authenticated.experiments.new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedCompareRoute = AuthenticatedCompareRouteImport.update({
+  id: '/compare',
+  path: '/compare',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedExportRoute = AuthenticatedExportRouteImport.update({
+  id: '/export',
+  path: '/export',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedLiveRoute = AuthenticatedLiveRouteImport.update({
+  id: '/live',
+  path: '/live',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedReplayRoute = AuthenticatedReplayRouteImport.update({
+  id: '/replay',
+  path: '/replay',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedExperimentsIndexRoute =
+  AuthenticatedExperimentsIndexRouteImport.update({
+    id: '/experiments/',
+    path: '/experiments/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedExperimentsNewRoute =
+  AuthenticatedExperimentsNewRouteImport.update({
+    id: '/experiments/new',
+    path: '/experiments/new',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/compare': typeof AuthenticatedCompareRoute
+  '/export': typeof AuthenticatedExportRoute
+  '/live': typeof AuthenticatedLiveRoute
+  '/replay': typeof AuthenticatedReplayRoute
+  '/experiments/new': typeof AuthenticatedExperimentsNewRoute
+  '/experiments/': typeof AuthenticatedExperimentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/compare': typeof AuthenticatedCompareRoute
+  '/export': typeof AuthenticatedExportRoute
+  '/live': typeof AuthenticatedLiveRoute
+  '/replay': typeof AuthenticatedReplayRoute
+  '/experiments/new': typeof AuthenticatedExperimentsNewRoute
+  '/experiments': typeof AuthenticatedExperimentsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/compare': typeof AuthenticatedCompareRoute
+  '/_authenticated/export': typeof AuthenticatedExportRoute
+  '/_authenticated/live': typeof AuthenticatedLiveRoute
+  '/_authenticated/replay': typeof AuthenticatedReplayRoute
+  '/_authenticated/experiments/new': typeof AuthenticatedExperimentsNewRoute
+  '/_authenticated/experiments/': typeof AuthenticatedExperimentsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/compare'
+    | '/export'
+    | '/live'
+    | '/replay'
+    | '/experiments/new'
+    | '/experiments/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/compare'
+    | '/export'
+    | '/live'
+    | '/replay'
+    | '/experiments/new'
+    | '/experiments'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/compare'
+    | '/_authenticated/export'
+    | '/_authenticated/live'
+    | '/_authenticated/replay'
+    | '/_authenticated/experiments/new'
+    | '/_authenticated/experiments/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +147,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/compare': {
+      id: '/_authenticated/compare'
+      path: '/compare'
+      fullPath: '/compare'
+      preLoaderRoute: typeof AuthenticatedCompareRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/export': {
+      id: '/_authenticated/export'
+      path: '/export'
+      fullPath: '/export'
+      preLoaderRoute: typeof AuthenticatedExportRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/live': {
+      id: '/_authenticated/live'
+      path: '/live'
+      fullPath: '/live'
+      preLoaderRoute: typeof AuthenticatedLiveRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/replay': {
+      id: '/_authenticated/replay'
+      path: '/replay'
+      fullPath: '/replay'
+      preLoaderRoute: typeof AuthenticatedReplayRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/experiments/': {
+      id: '/_authenticated/experiments/'
+      path: '/experiments'
+      fullPath: '/experiments/'
+      preLoaderRoute: typeof AuthenticatedExperimentsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/experiments/new': {
+      id: '/_authenticated/experiments/new'
+      path: '/experiments/new'
+      fullPath: '/experiments/new'
+      preLoaderRoute: typeof AuthenticatedExperimentsNewRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedCompareRoute: typeof AuthenticatedCompareRoute
+  AuthenticatedExportRoute: typeof AuthenticatedExportRoute
+  AuthenticatedLiveRoute: typeof AuthenticatedLiveRoute
+  AuthenticatedReplayRoute: typeof AuthenticatedReplayRoute
+  AuthenticatedExperimentsNewRoute: typeof AuthenticatedExperimentsNewRoute
+  AuthenticatedExperimentsIndexRoute: typeof AuthenticatedExperimentsIndexRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedCompareRoute: AuthenticatedCompareRoute,
+  AuthenticatedExportRoute: AuthenticatedExportRoute,
+  AuthenticatedLiveRoute: AuthenticatedLiveRoute,
+  AuthenticatedReplayRoute: AuthenticatedReplayRoute,
+  AuthenticatedExperimentsNewRoute: AuthenticatedExperimentsNewRoute,
+  AuthenticatedExperimentsIndexRoute: AuthenticatedExperimentsIndexRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

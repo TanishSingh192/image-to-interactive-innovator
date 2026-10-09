@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Architecture
+- Experiment execution runs client-side via `src/lib/lab.ts` against a simulated ARC-style environment, writing to experiments/runs/steps tables; why: no Python/ARC SDK runtime on the edge, keep the agent contract swappable for real adapters later.
+- Authenticated pages live under the `_authenticated` pathless layout with a client-side session guard; data is per-user via RLS on `user_id`.
