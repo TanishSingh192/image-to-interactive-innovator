@@ -12,10 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuthenticatedCompareRouteImport } from './routes/_authenticated.compare'
-import { Route as AuthenticatedExportRouteImport } from './routes/_authenticated.export'
-import { Route as AuthenticatedLiveRouteImport } from './routes/_authenticated.live'
-import { Route as AuthenticatedReplayRouteImport } from './routes/_authenticated.replay'
+import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated.agents'
+import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated.analytics'
+import { Route as AuthenticatedCivilizationRouteImport } from './routes/_authenticated.civilization'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated.settings'
+import { Route as AuthenticatedWorldRouteImport } from './routes/_authenticated.world'
+import { Route as AuthenticatedWorldModelRouteImport } from './routes/_authenticated.world-model'
 import { Route as AuthenticatedExperimentsIndexRouteImport } from './routes/_authenticated.experiments.index'
 import { Route as AuthenticatedExperimentsNewRouteImport } from './routes/_authenticated.experiments.new'
 
@@ -33,24 +35,35 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedCompareRoute = AuthenticatedCompareRouteImport.update({
-  id: '/compare',
-  path: '/compare',
+const AuthenticatedAgentsRoute = AuthenticatedAgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedExportRoute = AuthenticatedExportRouteImport.update({
-  id: '/export',
-  path: '/export',
+const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedLiveRoute = AuthenticatedLiveRouteImport.update({
-  id: '/live',
-  path: '/live',
+const AuthenticatedCivilizationRoute =
+  AuthenticatedCivilizationRouteImport.update({
+    id: '/civilization',
+    path: '/civilization',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedReplayRoute = AuthenticatedReplayRouteImport.update({
-  id: '/replay',
-  path: '/replay',
+const AuthenticatedWorldRoute = AuthenticatedWorldRouteImport.update({
+  id: '/world',
+  path: '/world',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedWorldModelRoute = AuthenticatedWorldModelRouteImport.update({
+  id: '/world-model',
+  path: '/world-model',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedExperimentsIndexRoute =
@@ -69,20 +82,24 @@ const AuthenticatedExperimentsNewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/compare': typeof AuthenticatedCompareRoute
-  '/export': typeof AuthenticatedExportRoute
-  '/live': typeof AuthenticatedLiveRoute
-  '/replay': typeof AuthenticatedReplayRoute
+  '/agents': typeof AuthenticatedAgentsRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/civilization': typeof AuthenticatedCivilizationRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/world': typeof AuthenticatedWorldRoute
+  '/world-model': typeof AuthenticatedWorldModelRoute
   '/experiments/new': typeof AuthenticatedExperimentsNewRoute
   '/experiments/': typeof AuthenticatedExperimentsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/compare': typeof AuthenticatedCompareRoute
-  '/export': typeof AuthenticatedExportRoute
-  '/live': typeof AuthenticatedLiveRoute
-  '/replay': typeof AuthenticatedReplayRoute
+  '/agents': typeof AuthenticatedAgentsRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/civilization': typeof AuthenticatedCivilizationRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/world': typeof AuthenticatedWorldRoute
+  '/world-model': typeof AuthenticatedWorldModelRoute
   '/experiments/new': typeof AuthenticatedExperimentsNewRoute
   '/experiments': typeof AuthenticatedExperimentsIndexRoute
 }
@@ -91,10 +108,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth': typeof AuthRoute
-  '/_authenticated/compare': typeof AuthenticatedCompareRoute
-  '/_authenticated/export': typeof AuthenticatedExportRoute
-  '/_authenticated/live': typeof AuthenticatedLiveRoute
-  '/_authenticated/replay': typeof AuthenticatedReplayRoute
+  '/_authenticated/agents': typeof AuthenticatedAgentsRoute
+  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/civilization': typeof AuthenticatedCivilizationRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/world': typeof AuthenticatedWorldRoute
+  '/_authenticated/world-model': typeof AuthenticatedWorldModelRoute
   '/_authenticated/experiments/new': typeof AuthenticatedExperimentsNewRoute
   '/_authenticated/experiments/': typeof AuthenticatedExperimentsIndexRoute
 }
@@ -103,20 +122,24 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
-    | '/compare'
-    | '/export'
-    | '/live'
-    | '/replay'
+    | '/agents'
+    | '/analytics'
+    | '/civilization'
+    | '/settings'
+    | '/world'
+    | '/world-model'
     | '/experiments/new'
     | '/experiments/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
-    | '/compare'
-    | '/export'
-    | '/live'
-    | '/replay'
+    | '/agents'
+    | '/analytics'
+    | '/civilization'
+    | '/settings'
+    | '/world'
+    | '/world-model'
     | '/experiments/new'
     | '/experiments'
   id:
@@ -124,10 +147,12 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
-    | '/_authenticated/compare'
-    | '/_authenticated/export'
-    | '/_authenticated/live'
-    | '/_authenticated/replay'
+    | '/_authenticated/agents'
+    | '/_authenticated/analytics'
+    | '/_authenticated/civilization'
+    | '/_authenticated/settings'
+    | '/_authenticated/world'
+    | '/_authenticated/world-model'
     | '/_authenticated/experiments/new'
     | '/_authenticated/experiments/'
   fileRoutesById: FileRoutesById
@@ -161,32 +186,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/compare': {
-      id: '/_authenticated/compare'
-      path: '/compare'
-      fullPath: '/compare'
-      preLoaderRoute: typeof AuthenticatedCompareRouteImport
+    '/_authenticated/agents': {
+      id: '/_authenticated/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof AuthenticatedAgentsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/export': {
-      id: '/_authenticated/export'
-      path: '/export'
-      fullPath: '/export'
-      preLoaderRoute: typeof AuthenticatedExportRouteImport
+    '/_authenticated/analytics': {
+      id: '/_authenticated/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/live': {
-      id: '/_authenticated/live'
-      path: '/live'
-      fullPath: '/live'
-      preLoaderRoute: typeof AuthenticatedLiveRouteImport
+    '/_authenticated/civilization': {
+      id: '/_authenticated/civilization'
+      path: '/civilization'
+      fullPath: '/civilization'
+      preLoaderRoute: typeof AuthenticatedCivilizationRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/replay': {
-      id: '/_authenticated/replay'
-      path: '/replay'
-      fullPath: '/replay'
-      preLoaderRoute: typeof AuthenticatedReplayRouteImport
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/world': {
+      id: '/_authenticated/world'
+      path: '/world'
+      fullPath: '/world'
+      preLoaderRoute: typeof AuthenticatedWorldRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/world-model': {
+      id: '/_authenticated/world-model'
+      path: '/world-model'
+      fullPath: '/world-model'
+      preLoaderRoute: typeof AuthenticatedWorldModelRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/experiments/': {
@@ -207,19 +246,23 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedCompareRoute: typeof AuthenticatedCompareRoute
-  AuthenticatedExportRoute: typeof AuthenticatedExportRoute
-  AuthenticatedLiveRoute: typeof AuthenticatedLiveRoute
-  AuthenticatedReplayRoute: typeof AuthenticatedReplayRoute
+  AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRoute
+  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedCivilizationRoute: typeof AuthenticatedCivilizationRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedWorldRoute: typeof AuthenticatedWorldRoute
+  AuthenticatedWorldModelRoute: typeof AuthenticatedWorldModelRoute
   AuthenticatedExperimentsNewRoute: typeof AuthenticatedExperimentsNewRoute
   AuthenticatedExperimentsIndexRoute: typeof AuthenticatedExperimentsIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedCompareRoute: AuthenticatedCompareRoute,
-  AuthenticatedExportRoute: AuthenticatedExportRoute,
-  AuthenticatedLiveRoute: AuthenticatedLiveRoute,
-  AuthenticatedReplayRoute: AuthenticatedReplayRoute,
+  AuthenticatedAgentsRoute: AuthenticatedAgentsRoute,
+  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedCivilizationRoute: AuthenticatedCivilizationRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedWorldRoute: AuthenticatedWorldRoute,
+  AuthenticatedWorldModelRoute: AuthenticatedWorldModelRoute,
   AuthenticatedExperimentsNewRoute: AuthenticatedExperimentsNewRoute,
   AuthenticatedExperimentsIndexRoute: AuthenticatedExperimentsIndexRoute,
 }

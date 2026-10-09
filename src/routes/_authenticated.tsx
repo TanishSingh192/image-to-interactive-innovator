@@ -9,12 +9,13 @@ export const Route = createFileRoute("/_authenticated")({
 });
 
 const NAV = [
-  { to: "/experiments", n: "§0", label: "Experiments" },
-  { to: "/experiments/new", n: "§1", label: "Setup" },
-  { to: "/live", n: "§2", label: "Live runs" },
-  { to: "/compare", n: "§3", label: "Comparison" },
-  { to: "/replay", n: "§4", label: "Replay" },
-  { to: "/export", n: "§5", label: "Export" },
+  { to: "/world", n: "§1", label: "World" },
+  { to: "/agents", n: "§2", label: "Agents" },
+  { to: "/world-model", n: "§3", label: "World Model" },
+  { to: "/civilization", n: "§4", label: "Civilization" },
+  { to: "/experiments", n: "§5", label: "Experiments" },
+  { to: "/analytics", n: "§6", label: "Analytics" },
+  { to: "/settings", n: "§7", label: "Settings" },
 ] as const;
 
 function Layout() {
@@ -25,7 +26,7 @@ function Layout() {
   return (
     <div className="min-h-screen md:grid md:grid-cols-[220px_1fr]">
       <aside className="border-b border-border bg-sidebar p-5 md:min-h-screen md:border-b-0 md:border-r">
-        <Link to="/" className="block font-serif text-lg leading-tight">AI Benchmarking<br /><em className="text-primary">Lab</em></Link>
+        <Link to="/" className="block font-serif text-lg leading-tight">Genesis<br /><em className="text-primary">World Model Lab</em></Link>
         <nav className="mt-8 flex flex-wrap gap-1 md:flex-col">
           {NAV.map((i) => (
             <Link key={i.to} to={i.to} activeOptions={{ exact: true }}
@@ -40,7 +41,7 @@ function Layout() {
           <button className="mt-2 text-xs underline underline-offset-4" onClick={() => supabase.auth.signOut()}>Sign out</button>
         </div>
       </aside>
-      <main className="mx-auto w-full max-w-6xl p-6 md:p-10"><Outlet /></main>
+      <main className="w-full p-4 md:p-8"><Outlet /></main>
     </div>
   );
 }
