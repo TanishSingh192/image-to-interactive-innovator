@@ -1,9 +1,10 @@
+import { mulberry32 } from "./rng";
 import { supabase } from "@/integrations/supabase/client";
 import {
   applyAction, coverage, generateWorld, observe, tickWorld,
   type WorldConfig, type WorldState,
 } from "./world";
-import { decide, learn, predict } from "./agent";
+import { acceptTrade, decide, learn, predict, receiveTeaching } from "./agent";
 
 export interface StepRecord {
   step: number; agentId: string; agentName: string;
@@ -31,11 +32,13 @@ export class SimController {
   private listeners = new Set<Listener>();
   private pendingExperiences: Record<string, unknown>[] = [];
   private stepsSinceSave = 0;
+  private rand = mulberry32(1);
 
   constructor(userId: string, config: WorldConfig, worldId?: string, saved?: WorldState) {
     this.userId = userId;
     this.worldId = worldId ?? null;
     this.state = saved ?? generateWorld(config);
+    this.rand = mulberry32(this.state.config.seed * 31 + 1);
   }
 
   subscribe(fn: Listener) { this.listeners.add(fn); return () => { this.listeners.delete(fn); }; }
@@ -63,9 +66,14 @@ export class SimController {
     const s = this.state;
     for (const a of s.agents) {
       const obs = observe(s, a);
-      const action = decide(s, a, obs, 0);
+      const action = decide(a, obs, s.config.dayLength);
       const predicted = predict(a.mind, action, obs);
-      const actual = applyAction(s, a, action);
+      const actual = applyAction(s, a, action, { acceptTrade });
+      if (actual.success && action.startsWith("teach:")) {
+        const [pair, result] = action.slice(6).split("=");
+        for (const o of s.agents)
+          if (o.id !== a.id && Math.abs(o.x - a.x) + Math.abs(o.y - a.y) <= 2 && pair && result) receiveTeaching(o, a.name, pair, result, s.clock);
+      }
       const { error, changed } = learn(s, a, action, obs, predicted, actual);
       const rec: StepRecord = {
         step: s.clock, agentId: a.id, agentName: a.name, action,
@@ -85,7 +93,7 @@ export class SimController {
         prediction_error: error,
       });
     }
-    tickWorld(s);
+    tickWorld(s, this.rand);
     this.stepsSinceSave++;
     if (this.stepsSinceSave % 10 === 0) void this.flush();
     this.emit();

@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { SimController } from "./controller";
-import { DEFAULT_CONFIG, type WorldState } from "./world";
+import { DEFAULT_CONFIG, WORLD_VERSION, type WorldState } from "./world";
 
 /** Module-level singleton so the simulation keeps running across page navigation. */
 let current: SimController | null = null;
@@ -15,7 +15,7 @@ export async function loadController(userId: string): Promise<SimController> {
     const { data } = await supabase.from("genesis_worlds").select("*")
       .order("created_at", { ascending: false }).limit(1);
     const w = data?.[0];
-    if (w && w.state && (w.state as Record<string, unknown>)["tiles"]) {
+    if (w && w.state && (w.state as Record<string, unknown>)["version"] === WORLD_VERSION) {
       current = new SimController(userId, DEFAULT_CONFIG, w.id, w.state as unknown as WorldState);
     } else {
       current = new SimController(userId, DEFAULT_CONFIG);
