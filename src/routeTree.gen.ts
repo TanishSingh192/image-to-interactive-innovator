@@ -12,12 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuthenticatedCompareRouteImport } from './routes/_authenticated.compare'
-import { Route as AuthenticatedExportRouteImport } from './routes/_authenticated.export'
-import { Route as AuthenticatedLiveRouteImport } from './routes/_authenticated.live'
-import { Route as AuthenticatedReplayRouteImport } from './routes/_authenticated.replay'
-import { Route as AuthenticatedExperimentsIndexRouteImport } from './routes/_authenticated.experiments.index'
-import { Route as AuthenticatedExperimentsNewRouteImport } from './routes/_authenticated.experiments.new'
+import { Route as AuthenticatedWorldRouteImport } from './routes/_authenticated.world'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -33,103 +28,35 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedCompareRoute = AuthenticatedCompareRouteImport.update({
-  id: '/compare',
-  path: '/compare',
+const AuthenticatedWorldRoute = AuthenticatedWorldRouteImport.update({
+  id: '/world',
+  path: '/world',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedExportRoute = AuthenticatedExportRouteImport.update({
-  id: '/export',
-  path: '/export',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedLiveRoute = AuthenticatedLiveRouteImport.update({
-  id: '/live',
-  path: '/live',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedReplayRoute = AuthenticatedReplayRouteImport.update({
-  id: '/replay',
-  path: '/replay',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedExperimentsIndexRoute =
-  AuthenticatedExperimentsIndexRouteImport.update({
-    id: '/experiments/',
-    path: '/experiments/',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
-const AuthenticatedExperimentsNewRoute =
-  AuthenticatedExperimentsNewRouteImport.update({
-    id: '/experiments/new',
-    path: '/experiments/new',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/compare': typeof AuthenticatedCompareRoute
-  '/export': typeof AuthenticatedExportRoute
-  '/live': typeof AuthenticatedLiveRoute
-  '/replay': typeof AuthenticatedReplayRoute
-  '/experiments/new': typeof AuthenticatedExperimentsNewRoute
-  '/experiments/': typeof AuthenticatedExperimentsIndexRoute
+  '/world': typeof AuthenticatedWorldRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/compare': typeof AuthenticatedCompareRoute
-  '/export': typeof AuthenticatedExportRoute
-  '/live': typeof AuthenticatedLiveRoute
-  '/replay': typeof AuthenticatedReplayRoute
-  '/experiments/new': typeof AuthenticatedExperimentsNewRoute
-  '/experiments': typeof AuthenticatedExperimentsIndexRoute
+  '/world': typeof AuthenticatedWorldRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth': typeof AuthRoute
-  '/_authenticated/compare': typeof AuthenticatedCompareRoute
-  '/_authenticated/export': typeof AuthenticatedExportRoute
-  '/_authenticated/live': typeof AuthenticatedLiveRoute
-  '/_authenticated/replay': typeof AuthenticatedReplayRoute
-  '/_authenticated/experiments/new': typeof AuthenticatedExperimentsNewRoute
-  '/_authenticated/experiments/': typeof AuthenticatedExperimentsIndexRoute
+  '/_authenticated/world': typeof AuthenticatedWorldRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/auth'
-    | '/compare'
-    | '/export'
-    | '/live'
-    | '/replay'
-    | '/experiments/new'
-    | '/experiments/'
+  fullPaths: '/' | '/auth' | '/world'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/auth'
-    | '/compare'
-    | '/export'
-    | '/live'
-    | '/replay'
-    | '/experiments/new'
-    | '/experiments'
-  id:
-    | '__root__'
-    | '/'
-    | '/_authenticated'
-    | '/auth'
-    | '/_authenticated/compare'
-    | '/_authenticated/export'
-    | '/_authenticated/live'
-    | '/_authenticated/replay'
-    | '/_authenticated/experiments/new'
-    | '/_authenticated/experiments/'
+  to: '/' | '/auth' | '/world'
+  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/world'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -161,67 +88,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/compare': {
-      id: '/_authenticated/compare'
-      path: '/compare'
-      fullPath: '/compare'
-      preLoaderRoute: typeof AuthenticatedCompareRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/export': {
-      id: '/_authenticated/export'
-      path: '/export'
-      fullPath: '/export'
-      preLoaderRoute: typeof AuthenticatedExportRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/live': {
-      id: '/_authenticated/live'
-      path: '/live'
-      fullPath: '/live'
-      preLoaderRoute: typeof AuthenticatedLiveRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/replay': {
-      id: '/_authenticated/replay'
-      path: '/replay'
-      fullPath: '/replay'
-      preLoaderRoute: typeof AuthenticatedReplayRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/experiments/': {
-      id: '/_authenticated/experiments/'
-      path: '/experiments'
-      fullPath: '/experiments/'
-      preLoaderRoute: typeof AuthenticatedExperimentsIndexRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/experiments/new': {
-      id: '/_authenticated/experiments/new'
-      path: '/experiments/new'
-      fullPath: '/experiments/new'
-      preLoaderRoute: typeof AuthenticatedExperimentsNewRouteImport
+    '/_authenticated/world': {
+      id: '/_authenticated/world'
+      path: '/world'
+      fullPath: '/world'
+      preLoaderRoute: typeof AuthenticatedWorldRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
   }
 }
 
 interface AuthenticatedRouteChildren {
-  AuthenticatedCompareRoute: typeof AuthenticatedCompareRoute
-  AuthenticatedExportRoute: typeof AuthenticatedExportRoute
-  AuthenticatedLiveRoute: typeof AuthenticatedLiveRoute
-  AuthenticatedReplayRoute: typeof AuthenticatedReplayRoute
-  AuthenticatedExperimentsNewRoute: typeof AuthenticatedExperimentsNewRoute
-  AuthenticatedExperimentsIndexRoute: typeof AuthenticatedExperimentsIndexRoute
+  AuthenticatedWorldRoute: typeof AuthenticatedWorldRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
-  AuthenticatedCompareRoute: AuthenticatedCompareRoute,
-  AuthenticatedExportRoute: AuthenticatedExportRoute,
-  AuthenticatedLiveRoute: AuthenticatedLiveRoute,
-  AuthenticatedReplayRoute: AuthenticatedReplayRoute,
-  AuthenticatedExperimentsNewRoute: AuthenticatedExperimentsNewRoute,
-  AuthenticatedExperimentsIndexRoute: AuthenticatedExperimentsIndexRoute,
+  AuthenticatedWorldRoute: AuthenticatedWorldRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
