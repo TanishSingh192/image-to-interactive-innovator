@@ -80,7 +80,7 @@ function CivilizationPage() {
           <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
             {s.agents.map((a) => {
               const confirmed = a.mind.rules.filter((r) => r.kind === "confirmed").length;
-              const spec = (a.inventory.tool ?? 0) > 0 ? "toolmaker" : confirmed >= 3 ? "surveyor" : (a.inventory.food ?? 0) > 2 ? "forager" : "wanderer";
+              const spec = (a.inventory["tool"] ?? 0) > 0 ? "toolmaker" : confirmed >= 3 ? "surveyor" : (a.inventory["food"] ?? 0) > 2 ? "forager" : "wanderer";
               return <li key={a.id}>{a.name}: <span className="text-foreground">{spec}</span> · {confirmed} confirmed rules</li>;
             })}
           </ul>

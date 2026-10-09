@@ -66,7 +66,7 @@ function ExperimentsPage() {
                     )}
                   </td>
                   <td className="p-3 font-medium">{e.name}</td>
-                  <td className="p-3"><StatusBadge s={e.status} /></td>
+                  <td className="p-3"><StatusBadge status={e.status} /></td>
                   <td className="figure-num p-3">{e.seed}</td>
                   <td className="figure-num p-3">{cfg?.agents ?? "—"}</td>
                   <td className="figure-num p-3">{cfg?.steps ?? "—"}</td>

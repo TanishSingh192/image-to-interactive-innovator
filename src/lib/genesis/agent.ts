@@ -92,7 +92,7 @@ export function decide(s: WorldState, a: AgentState, obs: Observation, stepSeed:
   const r = mulberry32(hashStr(a.id) + s.clock * 7919 + stepSeed);
   const inv = a.inventory;
 
-  if (a.energy < 30 && (inv.food ?? 0) > 0) { a.goal = "eat to recover"; return "eat"; }
+  if (a.energy < 30 && (inv["food"] ?? 0) > 0) { a.goal = "eat to recover"; return "eat"; }
   if (a.energy < 15) { a.goal = "rest"; return "rest"; }
 
   const here = obs.tile;
@@ -100,11 +100,11 @@ export function decide(s: WorldState, a: AgentState, obs: Observation, stepSeed:
 
   // Gather from the current tile when useful.
   if (here.obj === "berry" && hungry) { a.goal = "gather food"; return "gather"; }
-  if (here.obj === "tree" && (inv.wood ?? 0) < 3) { a.goal = "gather wood"; return "gather"; }
-  if (here.obj === "stone" && (inv.stone ?? 0) < 3) { a.goal = "gather stone"; return "gather"; }
+  if (here.obj === "tree" && (inv["wood"] ?? 0) < 3) { a.goal = "gather wood"; return "gather"; }
+  if (here.obj === "stone" && (inv["stone"] ?? 0) < 3) { a.goal = "gather stone"; return "gather"; }
 
   // Test the hidden crafting hypothesis once materials are in hand.
-  if ((inv.wood ?? 0) >= 1 && (inv.stone ?? 0) >= 1 && (inv.tool ?? 0) < 1) {
+  if ((inv["wood"] ?? 0) >= 1 && (inv["stone"] ?? 0) >= 1 && (inv["tool"] ?? 0) < 1) {
     const key = ruleKey("experiment:wood+stone", ctxOf(obs));
     const known = findRule(a.mind, key);
     if (!known || known.kind !== "confirmed") {
@@ -118,7 +118,7 @@ export function decide(s: WorldState, a: AgentState, obs: Observation, stepSeed:
   // Civilization behavior: share surplus and knowledge with nearby agents.
   if (s.config.allowComms && obs.nearbyAgents.length > 0) {
     const other = obs.nearbyAgents[0]!;
-    if ((inv.food ?? 0) > 2 && r() < 0.4) { a.goal = `share food with ${other.name}`; return `give:${other.id}:food`; }
+    if ((inv["food"] ?? 0) > 2 && r() < 0.4) { a.goal = `share food with ${other.name}`; return `give:${other.id}:food`; }
     if (s.config.allowSharing) {
       const confirmed = a.mind.rules.filter((x) => x.kind === "confirmed" && !x.shared);
       if (confirmed.length > 0 && r() < 0.5) {
@@ -132,7 +132,7 @@ export function decide(s: WorldState, a: AgentState, obs: Observation, stepSeed:
 
   // Move toward the nearest useful object or unvisited tile.
   a.goal = "explore";
-  const want: string[] = hungry ? ["berry"] : (inv.wood ?? 0) < 2 ? ["tree"] : (inv.stone ?? 0) < 2 ? ["stone", "tree"] : ["berry", "tree"];
+  const want: string[] = hungry ? ["berry"] : (inv["wood"] ?? 0) < 2 ? ["tree"] : (inv["stone"] ?? 0) < 2 ? ["stone", "tree"] : ["berry", "tree"];
   let best: { dx: number; dy: number } | null = null;
   let bestD = 99;
   for (const v of obs.view) {

@@ -15,7 +15,7 @@ export async function loadController(userId: string): Promise<SimController> {
     const { data } = await supabase.from("genesis_worlds").select("*")
       .order("created_at", { ascending: false }).limit(1);
     const w = data?.[0];
-    if (w && w.state && (w.state as Record<string, unknown>).tiles) {
+    if (w && w.state && (w.state as Record<string, unknown>)["tiles"]) {
       current = new SimController(userId, DEFAULT_CONFIG, w.id, w.state as unknown as WorldState);
     } else {
       current = new SimController(userId, DEFAULT_CONFIG);
