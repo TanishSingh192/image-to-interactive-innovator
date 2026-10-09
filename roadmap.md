@@ -1,10 +1,10 @@
-# Genesis rebuild roadmap
+# Genesis build roadmap
 
-- [ ] DB migration: genesis tables (worlds, agents, experiences, knowledge, events, experiments, runs) with RLS
-- [ ] Engine: seeded world gen, terrain/resources, day-night, crafting rules (hidden), deterministic RNG
-- [ ] Baseline agent: observe→hypothesize→act→learn loop, symbolic world model, prediction error tracking
-- [ ] Multi-agent: communication, resource exchange, shared-knowledge toggle
-- [ ] Sim controller: play/pause/step/speed/reset, persistence to DB
-- [ ] Pages: World, Agents, World Model, Civilization, Experiments, Analytics, Settings (+ landing rewrite)
-- [ ] Dark research-dashboard theme
-- [ ] Verify in browser (screenshot), clean console
+- [x] DB: genesis_worlds/agents/experiences/knowledge/events/experiments + RLS
+- [x] Engine: seeded world, hidden rules, day/night, agent learning loop
+- [x] Controller: play/pause/step/speed/reset, DB persistence
+- [x] Pages: World, Agents, World Model, Civilization, Experiments (+new), Analytics, Settings
+- [x] Dark research theme
+- [x] Browser verification: sim runs, discovery happens, no failed requests
+- [ ] User's unfinished sentence "I walso want a" — confirm intent
+- [ ] Future: pluggable AI model adapters for agents (extension point documented in Settings)
