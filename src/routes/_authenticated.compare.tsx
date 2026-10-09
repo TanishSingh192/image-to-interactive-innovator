@@ -43,7 +43,7 @@ function Page() {
   });
 
   const byEnv = (current?.environments ?? []).map((env) => {
-    const o: Record<string, string | number> = { env: envName(env).split(" · ")[0] };
+    const o: Record<string, string | number> = { env: envName(env).split(" · ")[0] ?? env };
     for (const a of current!.agents) {
       const rs = done.filter((r) => r.agent === a && r.environment === env);
       o[agentById(a)!.name] = rs.length ? +(rs.reduce((s, r) => s + Number(r.score), 0) / rs.length).toFixed(1) : 0;
@@ -96,7 +96,7 @@ function Page() {
                 <td className="py-1.5">{agentById(r.agent)?.name}</td><td className="figure-num">{envName(r.environment)}</td>
                 <td className="figure-num">rep {r.repetition}</td><td className={r.solved ? "text-success" : "text-muted-foreground"}>{r.solved ? "solved" : "unsolved"}</td>
                 <td className="figure-num">{Number(r.score)}</td>
-                <td className="text-right"><Link className="text-xs underline" to="/replay" search={{ run: r.id }}>Replay</Link></td>
+                <td className="text-right"><Link className="text-xs underline" to="/replay" search={{ run: r.id, exp: current.id }}>Replay</Link></td>
               </tr>))}</tbody>
           </table>
         </>

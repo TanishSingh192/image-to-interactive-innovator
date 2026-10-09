@@ -1,7 +1,7 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useExperiments } from "@/lib/queries";
 
-export function ExperimentPicker({ value, onChange }: { value?: string; onChange: (id: string) => void }) {
+export function ExperimentPicker({ value, onChange }: { value?: string | undefined; onChange: (id: string) => unknown }) {
   const { data = [] } = useExperiments();
   return (
     <Select value={value ?? ""} onValueChange={onChange}>

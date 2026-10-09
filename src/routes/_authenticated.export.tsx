@@ -49,7 +49,7 @@ function Page() {
     setBusy(true);
     const { data, error } = await supabase.from("steps").select("*").in("run_id", runs.map((r) => r.id)).order("step_index");
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     download(`${slug}-traces.jsonl`, (data ?? []).map((d) => JSON.stringify(d)).join("\n"), "application/x-ndjson");
   }
 

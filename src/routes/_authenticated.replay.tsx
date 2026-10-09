@@ -52,8 +52,8 @@ function Page() {
     <>
       <PageHeader section="§4 Replay" title="Episode replay">
         <div className="flex flex-wrap gap-2">
-          <ExperimentPicker value={expId} onChange={(id) => nav({ search: { exp: id } })} />
-          <Select value={run?.id} onValueChange={(id) => nav({ search: { exp: expId, run: id } })}>
+          <ExperimentPicker value={expId} onChange={(id) => nav({ search: { exp: id, run: undefined } })} />
+          <Select value={run?.id ?? ""} onValueChange={(id) => nav({ search: { exp: expId, run: id } })}>
             <SelectTrigger className="w-64"><SelectValue placeholder="Episode" /></SelectTrigger>
             <SelectContent>{runs.map((r) => <SelectItem key={r.id} value={r.id}>{agentById(r.agent)?.name} · {r.environment.toUpperCase()} · rep {r.repetition}</SelectItem>)}</SelectContent>
           </Select>
@@ -78,7 +78,7 @@ function Page() {
                 <div><dt className="eyebrow">Latency · tokens</dt><dd className="figure-num mt-1">{s.latency_ms}ms · {s.tokens}</dd></div>
                 {s.error && <div className="col-span-2"><dt className="eyebrow">Error</dt><dd className="mt-1 text-destructive">{s.error}</dd></div>}
               </dl>
-              <Slider value={[i]} max={steps.length - 1} step={1} onValueChange={([v]) => setI(v)} />
+              <Slider value={[i]} max={steps.length - 1} step={1} onValueChange={([v]) => setI(v ?? 0)} />
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => setI(Math.max(0, i - 1))}>Prev</Button>
                 <Button onClick={() => setPlaying(!playing)}>{playing ? "Pause" : "Play"}</Button>
