@@ -7,6 +7,10 @@
 - [x] Dark research theme
 - [x] Browser verification: sim runs, discovery happens, no failed requests
 ## GitHub documentation
+- [x] Expand repository presentation and detailed research/reference guides
+- [x] Add MIT license and consistent license links
+- [x] Add GitHub issue and pull request templates
+- [x] Validate documentation links, diagram fences, issue-form syntax, and framed images
 - [x] Replace starter README with product overview, screenshots, setup, and limitations
 - [x] Add system architecture and data-flow documentation
 - [x] Capture and inspect real application screenshots

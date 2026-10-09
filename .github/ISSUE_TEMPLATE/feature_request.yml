@@ -1,0 +1,30 @@
+name: Enhancement proposal
+description: Suggest a focused application or research improvement
+title: "[Proposal]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or research question
+      description: What is missing, and who needs it?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Distinguish current behavior from the suggested capability.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What observable evidence would show the change works?
+    validations:
+      required: true
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Trade-offs and alternatives
+      description: Consider provenance, reproducibility, access control, persistence, and compute costs.

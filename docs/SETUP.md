@@ -75,3 +75,32 @@ Connect the repository using Lovable chat **+ → GitHub → Connect project**, 
 | Same seed, different trajectory | Random agent UUIDs influence policy RNG |
 | No live chart after reload | Recent-action buffer is in-memory; run again or inspect stored records |
 | Experiment remains running | Browser stopped before completion was persisted |
+| Export buttons stay disabled | Current Settings hooks lack a required world ID; see the simulation reference |
+
+## Operational checklist
+
+### Before local development
+
+- Confirm dependency installation completed using the checked-in lockfile.
+- Set only public browser fields in `.env.local`; keep the file out of source control.
+- Confirm the target backend has the application migrations and account settings you intend to use.
+- Use a local/test account whose records you are authorized to inspect.
+
+### Before sharing a deployment
+
+- Verify real sign-in and configured redirects on the target origin; source inspection cannot establish hosted settings.
+- Run one complete browser experiment and confirm its completion record.
+- Pause and reload a live world to check persistence, then inspect actual failures rather than assuming successful UI actions imply saved records.
+- Review [Security](../SECURITY.md) for client integrity, parent ownership, multi-tab, and account-switch boundaries.
+- Keep database exports and auth secrets separate from the MIT-licensed source repository.
+
+### Before publishing documentation screenshots
+
+- Capture actual activity, not invented data or mock model responses.
+- Exclude account identifiers, tokens, and private notes.
+- Label selected crops and bounded metrics honestly.
+- Inspect every final image for readable text, intact framing, missing assets, and clipping.
+
+## Dependencies and hosting licenses
+
+The project source uses the [MIT License](../LICENSE). Installed packages and third-party assets retain their own license terms. Hosting, account access, backend storage, and any future model usage are services, not permissions supplied by the source license.

@@ -1,10 +1,23 @@
+<div align="center">
+
 # Genesis
 
 ### Artificial Civilization & World Model Lab
 
+**Explore a world. Record its transitions. Inspect what the agents learn.**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+![Status: Research prototype](https://img.shields.io/badge/Status-Research%20prototype-orange)
+![React 19](https://img.shields.io/badge/React-19-61DAFB)
+![TypeScript](https://img.shields.io/badge/Language-TypeScript-3178C6)
+
+[Live app](https://image-to-interactive-innovator.lovable.app) · [Documentation](docs/README.md) · [Architecture](docs/ARCHITECTURE.md) · [Getting started](docs/SETUP.md)
+
+</div>
+
 A browser-based research sandbox where symbolic agents explore a 2D world, test actions, record outcomes, and build a predictive rule store. Inspect learning histories, observe collective behavior, and compare controlled simulation runs.
 
-[Open the app](https://image-to-interactive-innovator.lovable.app) · [Architecture](docs/ARCHITECTURE.md) · [Setup](docs/SETUP.md) · [Contributing](CONTRIBUTING.md)
+[Simulation reference](docs/SIMULATION_REFERENCE.md) · [Research protocol](docs/RESEARCH_PROTOCOL.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
 
 ![Genesis live world: terrain, resources, agents, and simulation controls](docs/images/world.png)
 
@@ -13,6 +26,7 @@ A browser-based research sandbox where symbolic agents explore a 2D world, test 
 ## Contents
 
 - [Capabilities](#capabilities)
+- [Purpose and scope](#purpose-and-scope)
 - [Screenshots](#screenshots)
 - [System overview](#system-overview)
 - [Quick start](#quick-start)
@@ -20,6 +34,16 @@ A browser-based research sandbox where symbolic agents explore a 2D world, test 
 - [Repository map](#repository-map)
 - [Research limitations](#research-limitations)
 - [Development and GitHub](#development-and-github)
+- [Documentation guide](#documentation-guide)
+- [License](#license)
+
+## Purpose and scope
+
+Genesis makes a small agent-environment learning loop inspectable: local observations, action proposals, predictions, outcomes, and accumulated rule evidence. It is intended for exploring symbolic agent behavior and prototyping research interfaces, not proving artificial general intelligence or reporting official benchmark scores.
+
+The prototype answers operational questions such as: What action did an agent take? What did it predict? What happened? Which rules gained evidence? How do measured summaries change when communication or sharing is toggled?
+
+It does **not** establish that policy choices are learned, that candidate recipes are unbiased, or that a shared rule is correct. Those distinctions matter when using its graphs or screenshots in a project report.
 
 ## Capabilities
 
@@ -34,6 +58,23 @@ A browser-based research sandbox where symbolic agents explore a 2D world, test 
 | **Settings** | JSON/CSV exports and future provider preferences; preferences do not connect a model |
 
 Accounts and persisted records use Lovable Cloud with per-user row policies. Simulation calculations execute in the browser.
+
+### Experience map
+
+| Path | View | Data source |
+| --- | --- | --- |
+| `/` | Project introduction | Static presentation and current account state |
+| `/auth` | Sign-in / account creation | Managed authentication |
+| `/world` | Active world | In-tab controller and saved snapshot |
+| `/agents` | Population and inspection | Active controller, symbolic minds, recent action buffer |
+| `/world-model` | Rules and predictions | Active controller, recent action buffer, researcher ground truth |
+| `/civilization` | Collective behavior | Active world counters, agents, messages, events |
+| `/experiments` | Saved runs and comparison | Persisted experiment records |
+| `/experiments/new` | Configure and execute a run | Independent browser simulation; saved summary |
+| `/analytics` | Cross-run and knowledge summaries | Persisted experiments and knowledge |
+| `/settings` | Preferences and exports | Browser preferences, controller, research queries |
+
+Lab views require sign-in. Their client-side navigation guard does not replace database access policies.
 
 ## Screenshots
 
@@ -116,11 +157,24 @@ src/
   integrations/                Generated auth and backend clients
   styles.css                   Dark research theme and semantic tokens
   test/                        Test setup and routing smoke test
- drizzle/migrations/          Application schema history
- docs/                        Architecture, setup, actual screenshots
+drizzle/migrations/            Application schema history
+docs/                         Guides and framed real screenshots
+.github/                      Issue forms and pull request template
+LICENSE                       MIT license
 ```
 
 **Stack:** React 19, TypeScript, TanStack Start/Router/Query, Vite, Tailwind CSS 4, shadcn/ui & Radix, HTML Canvas, Recharts, Lovable Cloud, PostgreSQL row-level security.
+
+### Engineering choices
+
+| Choice | Rationale | Trade-off |
+| --- | --- | --- |
+| Browser simulation | Immediate stepping and inspectable behavior without remote compute | Stops with the tab; outcomes are client-authoritative |
+| Symbolic rule memory | Evidence and hypotheses are easy to inspect | Limited expressive power and heuristic confidence |
+| Seeded terrain | Controlled initial environment layout | Agent IDs still introduce trajectory variation |
+| Snapshot + event records | Reloadable state alongside research records | Saves are separate requests, not one transaction |
+| In-tab shared controller | Keeps the world active across navigation | Account switching and multiple tabs need lifecycle hardening |
+| Independent offline runs | Experiments do not mutate the active world | Summary windows are bounded and full trajectories are not saved |
 
 ## Research limitations
 
@@ -150,6 +204,24 @@ Avoid rewriting published history on a connected branch. See [Contributing](CONT
 
 Model adapters; unbiased recipe candidates; stable seeded agent identities; structured outcome evaluation; engine/access tests; robust persistence and account lifecycle; trusted server execution and durable background jobs.
 
-### License
+## Documentation guide
 
-No open-source license has been selected. Public GitHub visibility alone is not an open-source license; the owner should choose terms before inviting reuse.
+| Guide | What you will find |
+| --- | --- |
+| [Documentation index](docs/README.md) | Reading paths for users, researchers, and contributors |
+| [Setup and deployment](docs/SETUP.md) | Prerequisites, public configuration, migration history, auth, troubleshooting |
+| [System architecture](docs/ARCHITECTURE.md) | Modules, sequence diagram, data model, ownership, persistence, extension boundaries |
+| [Simulation reference](docs/SIMULATION_REFERENCE.md) | Configuration, action grammar, observations, rule evidence, exports |
+| [Research protocol](docs/RESEARCH_PROTOCOL.md) | Controlled comparisons, provenance, metric windows, reporting and validation |
+| [Contributing](CONTRIBUTING.md) | Change workflow and research-integrity expectations |
+| [Security](SECURITY.md) | Threat boundaries and private disclosure guidance |
+
+### Validation status
+
+The previous documentation capture verified four real application views and reported no page exceptions. The existing automated suite is a routing smoke test; it does not establish engine correctness, complete access isolation, hosted sign-in settings, or scientific validity. Screenshots are evidence of a captured session—not a substitute for reproducible experiments.
+
+## License
+
+Released under the [MIT License](LICENSE). Copyright © 2026 Tanish Singh.
+
+You may use, modify, distribute, sublicense, and sell copies subject to retaining the copyright and permission notice. The software is provided without warranty. Third-party packages keep their own licenses; backend records, account access, and private credentials are not distributed by this repository.

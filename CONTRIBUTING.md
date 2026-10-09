@@ -1,8 +1,10 @@
 # Contributing to Genesis
 
-Read the [README](README.md), [setup guide](docs/SETUP.md), and [architecture](docs/ARCHITECTURE.md). No open-source license is selected; ask the owner about reuse/contribution terms.
+Read the [README](README.md), [setup guide](docs/SETUP.md), and [architecture](docs/ARCHITECTURE.md). Genesis is released under the [MIT License](LICENSE). Contributions are intended for inclusion under the same license; only contribute material you have the right to share.
 
 ## Workflow
+
+Use the repository's bug-report or enhancement issue form to describe changes, and the pull request template to record validation. These templates collect evidence; they do not imply an automated CI pipeline exists.
 
 1. Describe the issue or intended change; keep it focused.
 2. Install with `bun install --frozen-lockfile` and use your own authorized local configuration.
