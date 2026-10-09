@@ -86,7 +86,7 @@ export function generateWorld(config: WorldConfig): WorldState {
       tries++;
     } while (tries < 200 && !WALKABLE.includes(tiles[y]![x]!.terrain));
     agents.push({
-      id: `agent-${i + 1}`,
+      id: crypto.randomUUID(),
       name: AGENT_NAMES[i % AGENT_NAMES.length]!,
       color: AGENT_COLORS[i % AGENT_COLORS.length]!,
       x, y, energy: 100,
