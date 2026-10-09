@@ -25,7 +25,7 @@ export interface RuleState {
 }
 export interface Hypothesis {
   id: string; action: string; prediction: string; confidence: number;
-  status: "untested" | "supported" | "refuted";
+  status: "untested" | "supported" | "refuted" | "inconclusive";
   step: number; result?: string; source: string;
 }
 export interface MindState {
