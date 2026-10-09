@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { evaluateHypothesis } from "./agent";
+import { evaluateHypothesis, missingIngredients } from "./agent";
 
 describe("evaluateHypothesis", () => {
   it("supports an exact item prediction", () => {
@@ -26,5 +26,27 @@ describe("evaluateHypothesis", () => {
   it("normalizes the no-result outcome", () => {
     expect(evaluateHypothesis("nothing happens", "nothing")).toBe("supported");
     expect(evaluateHypothesis("tool", "nothing")).toBe("refuted");
+  });
+});
+
+
+describe("missingIngredients", () => {
+  it("does not request wood again when the agent already has it", () => {
+    expect(missingIngredients({ wood: 3 }, ["wood", "stone"])).toEqual(["stone"]);
+  });
+
+  it("accounts for duplicate inputs when planning planks", () => {
+    expect(missingIngredients({ wood: 1 }, ["wood", "wood"])).toEqual(["wood"]);
+    expect(missingIngredients({ wood: 2 }, ["wood", "wood"])).toEqual([]);
+  });
+
+  it("requests all missing materials when inventory is empty", () => {
+    expect(missingIngredients({}, ["wood", "stone"])).toEqual(["wood", "stone"]);
+  });
+
+  it("uses available inventory without mutating it", () => {
+    const inventory = { wood: 1, stone: 0 };
+    expect(missingIngredients(inventory, ["wood", "stone"])).toEqual(["stone"]);
+    expect(inventory).toEqual({ wood: 1, stone: 0 });
   });
 });
