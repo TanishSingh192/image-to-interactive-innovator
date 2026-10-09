@@ -12,7 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedAgentsRouteImport } from './routes/_authenticated.agents'
+import { Route as AuthenticatedCivilizationRouteImport } from './routes/_authenticated.civilization'
 import { Route as AuthenticatedWorldRouteImport } from './routes/_authenticated.world'
+import { Route as AuthenticatedWorldModelRouteImport } from './routes/_authenticated.world-model'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +31,69 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAgentsRoute = AuthenticatedAgentsRouteImport.update({
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedCivilizationRoute =
+  AuthenticatedCivilizationRouteImport.update({
+    id: '/civilization',
+    path: '/civilization',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedWorldRoute = AuthenticatedWorldRouteImport.update({
   id: '/world',
   path: '/world',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedWorldModelRoute = AuthenticatedWorldModelRouteImport.update({
+  id: '/world-model',
+  path: '/world-model',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/agents': typeof AuthenticatedAgentsRoute
+  '/civilization': typeof AuthenticatedCivilizationRoute
   '/world': typeof AuthenticatedWorldRoute
+  '/world-model': typeof AuthenticatedWorldModelRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/agents': typeof AuthenticatedAgentsRoute
+  '/civilization': typeof AuthenticatedCivilizationRoute
   '/world': typeof AuthenticatedWorldRoute
+  '/world-model': typeof AuthenticatedWorldModelRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/agents': typeof AuthenticatedAgentsRoute
+  '/_authenticated/civilization': typeof AuthenticatedCivilizationRoute
   '/_authenticated/world': typeof AuthenticatedWorldRoute
+  '/_authenticated/world-model': typeof AuthenticatedWorldModelRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/world'
+  fullPaths:
+    '/' | '/auth' | '/agents' | '/civilization' | '/world' | '/world-model'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/world'
-  id: '__root__' | '/' | '/_authenticated' | '/auth' | '/_authenticated/world'
+  to: '/' | '/auth' | '/agents' | '/civilization' | '/world' | '/world-model'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/agents'
+    | '/_authenticated/civilization'
+    | '/_authenticated/world'
+    | '/_authenticated/world-model'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -88,6 +125,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/agents': {
+      id: '/_authenticated/agents'
+      path: '/agents'
+      fullPath: '/agents'
+      preLoaderRoute: typeof AuthenticatedAgentsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/civilization': {
+      id: '/_authenticated/civilization'
+      path: '/civilization'
+      fullPath: '/civilization'
+      preLoaderRoute: typeof AuthenticatedCivilizationRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/world': {
       id: '/_authenticated/world'
       path: '/world'
@@ -95,15 +146,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedWorldRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/world-model': {
+      id: '/_authenticated/world-model'
+      path: '/world-model'
+      fullPath: '/world-model'
+      preLoaderRoute: typeof AuthenticatedWorldModelRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAgentsRoute: typeof AuthenticatedAgentsRoute
+  AuthenticatedCivilizationRoute: typeof AuthenticatedCivilizationRoute
   AuthenticatedWorldRoute: typeof AuthenticatedWorldRoute
+  AuthenticatedWorldModelRoute: typeof AuthenticatedWorldModelRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAgentsRoute: AuthenticatedAgentsRoute,
+  AuthenticatedCivilizationRoute: AuthenticatedCivilizationRoute,
   AuthenticatedWorldRoute: AuthenticatedWorldRoute,
+  AuthenticatedWorldModelRoute: AuthenticatedWorldModelRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
