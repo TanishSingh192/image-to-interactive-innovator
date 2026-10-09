@@ -9,6 +9,8 @@ export const Route = createFileRoute("/_authenticated/analytics")({
   ssr: false,
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Analytics — Genesis" },
       { name: "description", content: "Learning curves and discovery patterns computed from stored experiment and knowledge data." },
       { property: "og:title", content: "Analytics — Genesis" },

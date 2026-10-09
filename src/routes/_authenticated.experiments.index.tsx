@@ -8,6 +8,8 @@ export const Route = createFileRoute("/_authenticated/experiments/")({
   ssr: false,
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Experiments — Genesis" },
       { name: "description", content: "Run controlled A/B simulations with different seeds and agent settings, then compare outcomes." },
       { property: "og:title", content: "Experiments — Genesis" },

@@ -12,6 +12,8 @@ export const Route = createFileRoute("/_authenticated/world-model")({
   ssr: false,
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "World Model — Genesis" },
       { name: "description", content: "Predictive learning dashboard: learned rules, confidence, evidence, and prediction error over time." },
       { property: "og:title", content: "World Model — Genesis" },

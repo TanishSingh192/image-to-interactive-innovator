@@ -10,5 +10,6 @@
 <!-- LOVABLE:END -->
 
 ## Architecture
-- Experiment execution runs client-side via `src/lib/lab.ts` against a simulated ARC-style environment, writing to experiments/runs/steps tables; why: no Python/ARC SDK runtime on the edge, keep the agent contract swappable for real adapters later.
+- Genesis simulation and offline experiments run client-side through `src/lib/genesis`, persisting snapshots and measured records to Genesis tables; why: the prototype uses a browser symbolic engine, not a Python or remote model runtime.
 - Authenticated pages live under the `_authenticated` pathless layout with a client-side session guard; data is per-user via RLS on `user_id`.
+- Repository documentation lives in the root README and focused guides under `docs`, with actual captures under `docs/images`; why: GitHub renders diagrams and screenshots alongside source without a separate documentation service.

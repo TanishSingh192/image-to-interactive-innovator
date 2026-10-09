@@ -14,6 +14,8 @@ export const Route = createFileRoute("/_authenticated/experiments/new")({
   ssr: false,
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "New Experiment — Genesis" },
       { name: "description", content: "Configure a controlled simulation run with a hypothesis, seed, and agent settings." },
       { property: "og:title", content: "New Experiment — Genesis" },

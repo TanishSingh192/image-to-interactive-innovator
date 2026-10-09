@@ -6,5 +6,11 @@
 - [x] Pages: World, Agents, World Model, Civilization, Experiments (+new), Analytics, Settings
 - [x] Dark research theme
 - [x] Browser verification: sim runs, discovery happens, no failed requests
-- [ ] User's unfinished sentence "I walso want a" — confirm intent
-- [ ] Future: pluggable AI model adapters for agents (extension point documented in Settings)
+## GitHub documentation
+- [x] Replace starter README with product overview, screenshots, setup, and limitations
+- [x] Add system architecture and data-flow documentation
+- [x] Capture and inspect real application screenshots
+- [ ] GitHub upload — requires the owner to connect this project through Lovable's GitHub sync
+
+## Future scope (not part of this delivery)
+- Pluggable AI model adapters for agents
