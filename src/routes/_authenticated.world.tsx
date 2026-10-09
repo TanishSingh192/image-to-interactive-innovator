@@ -6,6 +6,7 @@ import { getController, loadController, newWorld } from "@/lib/genesis/session";
 import type { SimController } from "@/lib/genesis/controller";
 import { isNight } from "@/lib/genesis/world";
 import { WorldCanvas } from "@/components/WorldCanvas";
+import { World3D } from "@/components/World3D";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 
@@ -30,6 +31,7 @@ function WorldPage() {
   const [, force] = useReducer((x: number) => x + 1, 0);
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [tile, setTile] = useState<{ x: number; y: number } | null>(null);
+  const [mode, setMode] = useState<"3d" | "2d">("3d");
 
   useEffect(() => {
     if (!user) return;
@@ -42,7 +44,7 @@ function WorldPage() {
   }, [user]);
 
   if (!ctrl) return <p className="eyebrow p-10">Growing a world…</p>;
-  // eslint-disable-next-line react-hooks/rules-of-hooks -- placed after early return intentionally avoided below
+
 
   const s = ctrl.state;
   const agent = s.agents.find((a) => a.id === selectedAgent);
