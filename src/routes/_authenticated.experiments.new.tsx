@@ -40,12 +40,12 @@ function Page() {
     .reduce((s, a) => s + a.costPer1k * 1.3 * f.action_budget * 0.7 * f.environments.length * f.repetitions, 0);
 
   async function launch() {
-    if (!f.name.trim()) { toast.error("Give the experiment a name.");
-    if (!f.agents.length || !f.environments.length) { toast.error("Pick at least one agent and environment.");
+    if (!f.name.trim()) { toast.error("Give the experiment a name."); return; }
+    if (!f.agents.length || !f.environments.length) { toast.error("Pick at least one agent and environment."); return; }
     setBusy(true);
     const { data, error } = await supabase.from("experiments").insert(f).select().single();
     setBusy(false);
-    if (error || !data) { toast.error(error?.message ?? "Could not create experiment");
+    if (error || !data) { toast.error(error?.message ?? "Could not create experiment"); return; }
     executeExperiment(data).finally(() => qc.invalidateQueries());
     nav({ to: "/live", search: { exp: data.id } });
   }
