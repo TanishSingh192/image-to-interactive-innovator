@@ -149,7 +149,7 @@ export function decide(s: WorldState, a: AgentState, obs: Observation, stepSeed:
   const dirs = ["N", "S", "E", "W"];
   const unvisited = dirs.filter((d) => {
     const delta = { N: [0, -1], S: [0, 1], E: [1, 0], W: [-1, 0] }[d]!;
-    return !a.mind.visited.includes(`${a.x + delta[0]},${a.y + delta[1]}`);
+    return !a.mind.visited.includes(`${a.x + delta[0]!},${a.y + delta[1]!}`);
   });
   const pick = unvisited.length > 0 && r() < 0.8 ? unvisited[Math.floor(r() * unvisited.length)]! : dirs[Math.floor(r() * 4)]!;
   return `move:${pick}`;

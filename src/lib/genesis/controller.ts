@@ -157,7 +157,7 @@ export class SimController {
       await supabase.from("genesis_events").delete().eq("world_id", this.worldId);
       await supabase.from("genesis_agents").delete().eq("world_id", this.worldId);
       await supabase.from("genesis_agents").insert(this.state.agents.map((a) => ({
-        id: a.id, world_id: this.worldId, user_id: this.userId, name: a.name, color: a.color,
+        id: a.id, world_id: this.worldId!, user_id: this.userId, name: a.name, color: a.color,
         model_config: { provider: "built-in baseline", model: "symbolic-heuristic-v1" },
         position: { x: a.x, y: a.y }, status: a.status, objective: a.goal, resources: a.inventory,
       })));
