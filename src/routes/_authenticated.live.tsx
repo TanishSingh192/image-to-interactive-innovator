@@ -7,7 +7,7 @@ import { useExperiments, useRuns, useSteps } from "@/lib/queries";
 import { agentById, cancelExperiment, envName } from "@/lib/lab";
 
 export const Route = createFileRoute("/_authenticated/live")({
-  validateSearch: (s: Record<string, unknown>) => ({ exp: typeof s.exp === "string" ? s.exp : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({ exp: typeof s["exp"] === "string" ? s["exp"] : undefined }),
   head: () => ({
     meta: [
       { title: "Live runs — AI Benchmarking Lab" },

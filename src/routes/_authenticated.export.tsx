@@ -9,7 +9,7 @@ import { useExperiments, useRuns } from "@/lib/queries";
 import { AGENTS, download, toCSV } from "@/lib/lab";
 
 export const Route = createFileRoute("/_authenticated/export")({
-  validateSearch: (s: Record<string, unknown>) => ({ exp: typeof s.exp === "string" ? s.exp : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({ exp: typeof s["exp"] === "string" ? s["exp"] : undefined }),
   head: () => ({
     meta: [
       { title: "Research export — AI Benchmarking Lab" },

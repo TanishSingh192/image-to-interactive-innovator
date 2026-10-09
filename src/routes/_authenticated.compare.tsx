@@ -6,7 +6,7 @@ import { useExperiments, useRuns } from "@/lib/queries";
 import { AGENTS, agentById, envName } from "@/lib/lab";
 
 export const Route = createFileRoute("/_authenticated/compare")({
-  validateSearch: (s: Record<string, unknown>) => ({ exp: typeof s.exp === "string" ? s.exp : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({ exp: typeof s["exp"] === "string" ? s["exp"] : undefined }),
   head: () => ({
     meta: [
       { title: "Model comparison — AI Benchmarking Lab" },

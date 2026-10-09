@@ -13,8 +13,8 @@ import { agentById, envName } from "@/lib/lab";
 
 export const Route = createFileRoute("/_authenticated/replay")({
   validateSearch: (s: Record<string, unknown>) => ({
-    run: typeof s.run === "string" ? s.run : undefined,
-    exp: typeof s.exp === "string" ? s.exp : undefined,
+    run: typeof s["run"] === "string" ? s["run"] : undefined,
+    exp: typeof s["exp"] === "string" ? s["exp"] : undefined,
   }),
   head: () => ({
     meta: [
